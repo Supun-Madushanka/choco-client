@@ -31,6 +31,12 @@ const roleRouteAccess: Record<string, string[]> = {
         "/dashboard/profile",
         "/dashboard/change-password",
     ],
+    PRODUCTION_MANAGER: [
+        "/dashboard/production",
+        "/dashboard/inventory",
+        "/dashboard/raw-materials",
+        "/dashboard/reports",
+    ],
     //add other roles and their allowed routes here
 };
 
@@ -38,6 +44,7 @@ const roleRouteAccess: Record<string, string[]> = {
 const roleDashboards: Record<string, string> = {
     SUPER_ADMIN:           "/dashboard/overview",
     HR_MANAGER:            "/dashboard/hr",
+    PRODUCTION_MANAGER:    "/dashboard/production",
     //add other roles and their default dashboards here
 };
 

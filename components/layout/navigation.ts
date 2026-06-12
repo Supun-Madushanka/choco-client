@@ -54,6 +54,11 @@ export const allNavItems: NavGroup[] = [
         group: "Operations",
         items: [
             {
+                label: "Production",
+                href: "/dashboard/production",
+                icon: Factory,
+            },
+            {
                 label: "Raw Materials",
                 href: "/dashboard/raw-materials",
                 icon: Leaf,
@@ -62,11 +67,6 @@ export const allNavItems: NavGroup[] = [
                 label: "Suppliers",
                 href: "/dashboard/suppliers",
                 icon: Handshake,
-            },
-            {
-                label: "Production",
-                href: "/dashboard/production",
-                icon: Factory,
             },
             {
                 label: "Inventory",
@@ -139,12 +139,12 @@ export const roleNavItems: Record<string, string[]> = {
     //     "/dashboard/hr",
     //     "/dashboard/reports",
     // ],
-    // PRODUCTION_MANAGER: [
-    //     "/dashboard/production",
-    //     "/dashboard/inventory",
-    //     "/dashboard/raw-materials",
-    //     "/dashboard/reports",
-    // ],
+    PRODUCTION_MANAGER: [
+        "/dashboard/production",
+        "/dashboard/inventory",
+        "/dashboard/raw-materials",
+        "/dashboard/reports",
+    ],
     // PRODUCTION_SUPERVISOR: [
     //     "/dashboard/production",
     //     "/dashboard/inventory",
