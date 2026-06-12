@@ -3,6 +3,13 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { userService } from "@/services/user-service";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff } from "lucide-react";
+import { XCircle } from "lucide-react";
+import Link from "next/link";
+import { CheckCircle } from "lucide-react";
 
 export default function AcceptInvitationForm() {
 
@@ -111,7 +118,7 @@ export default function AcceptInvitationForm() {
                                 border-gold-500 border-t-transparent
                                 rounded-full animate-spin mb-4">
                 </div>
-                <p className="text-text-muted text-sm">
+                <p className="text-muted-foreground text-sm">
                     Validating your invitation...
                 </p>
             </div>
@@ -122,22 +129,18 @@ export default function AcceptInvitationForm() {
     if (error && !formData.fullName) {
         return (
             <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center
-                                w-16 h-16 bg-error-light rounded-full">
-                    <span className="text-3xl">❌</span>
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-error-light rounded-full">
+                    <XCircle className="h-8 w-8 text-error" />
                 </div>
-                <h3 className="text-lg font-semibold text-text-primary">
+                <h3 className="text-lg font-semibold text-foreground">
                     Invalid Invitation
                 </h3>
-                <p className="text-text-muted text-sm">{error}</p>
-                <a
-                    href="/login"
-                    className="inline-block w-full bg-gold-500
-                               hover:bg-gold-400 text-white font-medium
-                               py-2.5 px-4 rounded-btn transition-all
-                               duration-200 text-sm text-center">
-                    Back to Login
-                </a>
+                <p className="text-muted-foreground text-sm">{error}</p>
+                <Button asChild className="w-full">
+                    <Link href="/login">
+                        Back to Login
+                    </Link>
+                </Button>
             </div>
         );
     }
@@ -146,185 +149,166 @@ export default function AcceptInvitationForm() {
     if (success) {
         return (
             <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center
-                                w-16 h-16 bg-success-light rounded-full">
-                    <span className="text-3xl">🎉</span>
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
+                    <CheckCircle className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-text-primary">
+                <h3 className="text-lg font-semibold text-foreground">
                     Registration Complete!
                 </h3>
-                <p className="text-text-muted text-sm">
+                <p className="text-muted-foreground text-sm">
                     Your account has been created successfully.
                     You can now login with your credentials.
                 </p>
-                <button
+                <Button
                     onClick={() => router.push("/login")}
-                    className="w-full bg-gold-500 hover:bg-gold-400
-                               text-white font-medium py-2.5 px-4
-                               rounded-btn transition-all duration-200
-                               text-sm shadow-sm">
+                    className="w-full"
+                >
                     Go to Login
-                </button>
+                </Button>
             </div>
         );
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <>
+            <div className="mb-6">
+                <h2 className="text-md font-semibold text-foreground">
+                    Complete Registration
+                </h2>
 
-            {/* Role Badge */}
-            {roleDisplayName && (
-                <div className="bg-cream-100 border border-cream-200
-                                rounded-btn px-4 py-3">
-                    <p className="text-sm text-text-secondary">
-                        You are being registered as:
-                    </p>
-                    <p className="text-sm font-semibold text-chocolate-900 mt-0.5">
-                        {roleDisplayName}
-                    </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                    You have been invited to join Ceylon Chocolate Factory
+                    Management System. Please complete your registration below.
+                </p>
                 </div>
-            )}
+            <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Error Message */}
-            {error && (
-                <div className="bg-error-light border border-error
-                                text-error rounded-btn px-4 py-3 text-sm">
-                    {error}
-                </div>
-            )}
+                {/* Role Badge */}
+                {roleDisplayName && (
+                    <div className="bg-background border border-cream-200
+                                    rounded-btn px-4 py-3">
+                        <p className="text-sm text-secondary-foreground">
+                            You are being registered as:
+                        </p>
+                        <p className="text-sm font-semibold text-secondary-foreground mt-0.5">
+                            {roleDisplayName}
+                        </p>
+                    </div>
+                )}
 
-            {/* Full Name */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="fullName"
-                    className="text-sm font-medium text-text-primary">
-                    Full Name <span className="text-error">*</span>
-                </label>
-                <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    placeholder="Enter your full name"
-                    required
-                    className="w-full px-4 py-2.5 rounded-btn border
-                               border-cream-200 bg-white text-text-primary
-                               placeholder:text-text-muted text-sm
-                               focus:outline-none focus:ring-2
-                               focus:ring-gold-500 focus:border-transparent
-                               transition-all duration-200"
-                />
-            </div>
+                {/* Error Message */}
+                {error && (
+                    <div className="bg-error-light border border-error
+                                    text-error rounded-btn px-4 py-3 text-sm">
+                        {error}
+                    </div>
+                )}
 
-            {/* Phone */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="phone"
-                    className="text-sm font-medium text-text-primary">
-                    Phone{" "}
-                    <span className="text-text-muted font-normal">
-                        (optional)
-                    </span>
-                </label>
-                <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+94 77 123 4567"
-                    className="w-full px-4 py-2.5 rounded-btn border
-                               border-cream-200 bg-white text-text-primary
-                               placeholder:text-text-muted text-sm
-                               focus:outline-none focus:ring-2
-                               focus:ring-gold-500 focus:border-transparent
-                               transition-all duration-200"
-                />
-            </div>
-
-            {/* Password */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="password"
-                    className="text-sm font-medium text-text-primary">
-                    Password <span className="text-error">*</span>
-                </label>
-                <div className="relative">
-                    <input
-                        id="password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        value={formData.password}
+                {/* Full Name */}
+                <div className="space-y-1.5">
+                    <Label htmlFor="fullName">Full Name
+                        <span className="text-error">*</span>
+                    </Label>
+                    <Input
+                        id="fullName"
+                        name="fullName"
+                        type="text"
+                        value={formData.fullName}
                         onChange={handleChange}
-                        placeholder="Min. 8 characters"
+                        placeholder="Enter your full name"
                         required
-                        className="w-full px-4 py-2.5 rounded-btn border
-                                   border-cream-200 bg-white text-text-primary
-                                   placeholder:text-text-muted text-sm
-                                   focus:outline-none focus:ring-2
-                                   focus:ring-gold-500 focus:border-transparent
-                                   transition-all duration-200 pr-12"
                     />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2
-                                   text-text-muted hover:text-text-primary
-                                   transition-colors">
-                        {showPassword ? "🙈" : "👁️"}
-                    </button>
                 </div>
-            </div>
 
-            {/* Confirm Password */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="confirmPassword"
-                    className="text-sm font-medium text-text-primary">
-                    Confirm Password <span className="text-error">*</span>
-                </label>
-                <div className="relative">
-                    <input
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type={showConfirmPassword ? "text" : "password"}
-                        value={formData.confirmPassword}
+                {/* Phone */}
+                <div className="space-y-1.5">
+                    <Label
+                        htmlFor="phone">
+                        Phone{" "}
+                        <span className="text-text-muted font-normal">
+                            (optional)
+                        </span>
+                    </Label>
+                    <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
                         onChange={handleChange}
-                        placeholder="Re-enter your password"
-                        required
-                        className="w-full px-4 py-2.5 rounded-btn border
-                                   border-cream-200 bg-white text-text-primary
-                                   placeholder:text-text-muted text-sm
-                                   focus:outline-none focus:ring-2
-                                   focus:ring-gold-500 focus:border-transparent
-                                   transition-all duration-200 pr-12"
+                        placeholder="+94 77 123 4567"
                     />
-                    <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(
-                            !showConfirmPassword
-                        )}
-                        className="absolute right-3 top-1/2 -translate-y-1/2
-                                   text-text-muted hover:text-text-primary
-                                   transition-colors">
-                        {showConfirmPassword ? "🙈" : "👁️"}
-                    </button>
                 </div>
-            </div>
 
-            {/* Submit */}
-            <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gold-500 hover:bg-gold-400
-                           disabled:bg-gold-300 disabled:cursor-not-allowed
-                           text-white font-medium py-2.5 px-4
-                           rounded-btn transition-all duration-200
-                           text-sm shadow-sm">
-                {loading ? "Creating account..." : "Complete Registration"}
-            </button>
+                {/* Password */}
+                <div className="space-y-1.5">
+                    <Label
+                        htmlFor="password">
+                        Password <span className="text-error">*</span>
+                    </Label>
+                    <div className="relative">
+                        <Input
+                            id="password"
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="Min. 8 characters"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                            {showPassword ? (
+                                <EyeOff size={18} />
+                                    ) : (
+                                <Eye size={18} />
+                            )}
+                        </button>
+                    </div>
+                </div>
 
-        </form>
+                {/* Confirm Password */}
+                <div className="space-y-1.5">
+                    <Label
+                        htmlFor="confirmPassword">
+                        Confirm Password <span className="text-error">*</span>
+                    </Label>
+                    <div className="relative">
+                        <Input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type={showConfirmPassword ? "text" : "password"}
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            placeholder="Re-enter your password"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(
+                                !showConfirmPassword
+                            )}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                            {showConfirmPassword ? (
+                                <EyeOff size={18} />
+                                    ) : (
+                                <Eye size={18} />
+                            )}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Submit */}
+                <Button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full"
+                >
+                    {loading ? "Creating account..." : "Complete Registration"}
+                </Button>
+
+            </form>
+        </>
     );
 }
