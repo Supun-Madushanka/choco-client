@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth-service";
 import { useAuthStore } from "@/store/auth-store";
 import { LoginRequest } from "@/types/auth";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { GiChocolateBar } from "react-icons/gi";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -97,96 +104,99 @@ export default function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5">
+         <Card className="w-full max-w-md border-0 shadow-2xl bg-background/95 backdrop-blur">
+            <CardContent className="p-8">
+                <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-4">
+                        <GiChocolateBar className="h-8 w-8 text-primary" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-foreground">
+                        Ceylon Chocolate
+                    </h1>
 
-            {/* Error Message */}
-            {error && (
-                <div className="bg-error-light border border-error
-                                text-error rounded-btn px-4 py-3 text-sm">
-                    {error}
+                    <p className="text-sm text-muted-foreground mt-1">
+                        Factory Management System
+                    </p>
                 </div>
-            )}
 
-            {/* Email */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="email"
-                    className="text-sm font-medium text-text-primary">
-                    Email Address
-                </label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="you@ceylonchocolate.lk"
-                    required
-                    className="w-full px-4 py-2.5 rounded-btn border
-                               border-cream-200 bg-white text-text-primary
-                               placeholder:text-text-muted text-sm
-                               focus:outline-none focus:ring-2
-                               focus:ring-gold-500 focus:border-transparent
-                               transition-all duration-200"
-                />
-            </div>
+                <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Password */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="password"
-                    className="text-sm font-medium text-text-primary">
-                    Password
-                </label>
-                <div className="relative">
-                    <input
-                        id="password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="Enter your password"
-                        required
-                        className="w-full px-4 py-2.5 rounded-btn border
-                                   border-cream-200 bg-white text-text-primary
-                                   placeholder:text-text-muted text-sm
-                                   focus:outline-none focus:ring-2
-                                   focus:ring-gold-500 focus:border-transparent
-                                   transition-all duration-200 pr-12"
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2
-                                   text-text-muted hover:text-text-primary
-                                   transition-colors">
-                        {showPassword ? "🙈" : "👁️"}
-                    </button>
-                </div>
-            </div>
+                    {/* Error Message */}
+                    {error && (
+                        <div className="bg-error-light border border-error
+                                        text-error rounded-btn px-4 py-3 text-sm">
+                            {error}
+                        </div>
+                    )}
 
-            {/* Forgot Password */}
-            <div className="flex justify-end">
-                <a
-                    href="/forgot-password"
-                    className="text-sm text-gold-500 hover:text-gold-400
-                               font-medium transition-colors">
-                    Forgot password?
-                </a>
-            </div>
+                    {/* Email */}
+                    <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
 
-            {/* Submit Button */}
-            <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gold-500 hover:bg-gold-400
-                           disabled:bg-gold-300 disabled:cursor-not-allowed
-                           text-white font-medium py-2.5 px-4
-                           rounded-btn transition-all duration-200
-                           text-sm shadow-sm">
-                {loading ? "Signing in..." : "Sign In"}
-            </button>
+                        <div className="relative">
+                            <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="you@ceylonchocolate.lk"
+                                required
+                                className="h-12 pl-10"
+                            />
+                        </div>
+                    </div>
 
-        </form>
+                    {/* Password */}
+                    <div className="space-y-2">
+                        <Label htmlFor="password">Password</Label>
+                        
+                        <div className="relative">
+                        <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <Input
+                                id="password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Enter your password"
+                                required
+                                className="h-12 pl-10 pr-10"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                                {showPassword ? (
+                                    <EyeOff size={18} />
+                                    ) : (
+                                    <Eye size={18} />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Forgot Password */}
+                    <div className="flex justify-end">
+                        <Link
+                            href="/forgot-password"
+                            className="text-sm text-primary hover:underline">
+                            Forgot password?
+                        </Link>
+                    </div>
+
+                    {/* Submit Button */}
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full h-12 text-base"
+                    >
+                        {loading ? "Signing in..." : "Sign In"}
+                    </Button>
+
+                </form>
+            </CardContent>
+        </Card>
     );
 }
