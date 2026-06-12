@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ROLE_PERMISSIONS } from "./lib/permissions";
 
 const PUBLIC_ROUTES = ["/login"];
-
-const ROLE_ROUTES: Record<string, string> = {
-  HR_MANAGER: "/dashboard/hr",
-  SUPER_ADMIN: "/dashboard/admin",
-  PRODUCTION_MANAGER: "/dashboard/production",
-};
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -24,8 +19,28 @@ export function middleware(request: NextRequest) {
   }
 
   if (accessToken && isPublicRoute) {
-    const route = userRole ? (ROLE_ROUTES[userRole] ?? "/dashboard") : "/dashboard";
-    return NextResponse.redirect(new URL(route, request.url));
+    return NextResponse.redirect(
+      new URL("/dashboard", request.url)
+    );
+  }
+
+  if (accessToken && userRole) {
+    const allowedRoutes =
+      ROLE_PERMISSIONS[
+        userRole as keyof typeof ROLE_PERMISSIONS
+      ] ?? [];
+
+    const isAllowed = allowedRoutes.some(
+      (route) =>
+        pathname === route ||
+        pathname.startsWith(`${route}/`)
+    );
+
+    if (!isAllowed) {
+      return NextResponse.redirect(
+        new URL("/dashboard", request.url)
+      );
+    }
   }
 
   return NextResponse.next();

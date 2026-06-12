@@ -23,12 +23,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { loginUser } from "@/services/auth-service";
 import { useAuthStore } from "@/store/auth-store";
 
-const ROLE_ROUTES: Record<string, string> = {
-  HR_MANAGER: "/dashboard/hr",
-  SUPER_ADMIN: "/dashboard/admin",
-  PRODUCTION_MANAGER: "/dashboard/production",
-};
-
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -64,9 +58,7 @@ export default function LoginForm() {
 
       setAuth(res.data);
 
-      const route = ROLE_ROUTES[res.data.role] ?? "/dashboard";
-
-      router.push(route);
+      router.push("/dashboard");
     } catch (err: any) {
       const msg =
         err?.response?.data?.message ||
