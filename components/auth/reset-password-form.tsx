@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authService } from "@/services/auth-service";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, Eye, EyeOff } from "lucide-react";
 
 export default function ResetPasswordForm() {
 
@@ -84,122 +88,115 @@ export default function ResetPasswordForm() {
     if (success) {
         return (
             <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center
-                                w-16 h-16 bg-success-light rounded-full">
-                    <span className="text-3xl">✅</span>
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
+                    <CheckCircle className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-text-primary">
+                <h3 className="text-lg font-semibold text-foreground">
                     Password Reset Successfully!
                 </h3>
-                <p className="text-text-muted text-sm">
+                <p className="text-muted-foreground text-sm">
                     Your password has been updated.
                     You can now login with your new password.
                 </p>
-                <button
+                <Button
                     onClick={() => router.push("/login")}
-                    className="w-full bg-gold-500 hover:bg-gold-400
-                               text-white font-medium py-2.5 px-4
-                               rounded-btn transition-all duration-200
-                               text-sm shadow-sm">
+                    className="w-full">
                     Back to Login
-                </button>
+                </Button>
             </div>
         );
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <>
+            <div className="mb-6">
+                <h2 className="text-md font-semibold text-foreground">
+                    Reset Password
+                </h2>
 
-            {/* Error Message */}
-            {error && (
-                <div className="bg-error-light border border-error
-                                text-error rounded-btn px-4 py-3 text-sm">
-                    {error}
-                </div>
-            )}
-
-            {/* New Password */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="newPassword"
-                    className="text-sm font-medium text-text-primary">
-                    New Password
-                </label>
-                <div className="relative">
-                    <input
-                        id="newPassword"
-                        name="newPassword"
-                        type={showPassword ? "text" : "password"}
-                        value={formData.newPassword}
-                        onChange={handleChange}
-                        placeholder="Min. 8 characters"
-                        required
-                        className="w-full px-4 py-2.5 rounded-btn border
-                                   border-cream-200 bg-white text-text-primary
-                                   placeholder:text-text-muted text-sm
-                                   focus:outline-none focus:ring-2
-                                   focus:ring-gold-500 focus:border-transparent
-                                   transition-all duration-200 pr-12"
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2
-                                   text-text-muted hover:text-text-primary
-                                   transition-colors">
-                        {showPassword ? "🙈" : "👁️"}
-                    </button>
-                </div>
+                <p className="text-sm text-muted-foreground mt-1">
+                    Enter your new password below
+                </p>
             </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Confirm Password */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="confirmPassword"
-                    className="text-sm font-medium text-text-primary">
-                    Confirm Password
-                </label>
-                <div className="relative">
-                    <input
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type={showConfirmPassword ? "text" : "password"}
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        placeholder="Re-enter new password"
-                        required
-                        className="w-full px-4 py-2.5 rounded-btn border
-                                   border-cream-200 bg-white text-text-primary
-                                   placeholder:text-text-muted text-sm
-                                   focus:outline-none focus:ring-2
-                                   focus:ring-gold-500 focus:border-transparent
-                                   transition-all duration-200 pr-12"
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(
-                            !showConfirmPassword
-                        )}
-                        className="absolute right-3 top-1/2 -translate-y-1/2
-                                   text-text-muted hover:text-text-primary
-                                   transition-colors">
-                        {showConfirmPassword ? "🙈" : "👁️"}
-                    </button>
+                {/* Error Message */}
+                {error && (
+                    <div className="bg-error-light border border-error
+                                    text-error rounded-btn px-4 py-3 text-sm">
+                        {error}
+                    </div>
+                )}
+
+                {/* New Password */}
+                <div className="space-y-1.5">
+                    <Label
+                        htmlFor="newPassword">
+                        New Password
+                    </Label>
+                    <div className="relative">
+                        <Input
+                            id="newPassword"
+                            name="newPassword"
+                            type={showPassword ? "text" : "password"}
+                            value={formData.newPassword}
+                            onChange={handleChange}
+                            placeholder="Min. 8 characters"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                            {showPassword ? (
+                                <EyeOff size={18} />
+                                    ) : (
+                                <Eye size={18} />
+                            )}
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            {/* Submit */}
-            <button
-                type="submit"
-                disabled={loading || !token}
-                className="w-full bg-gold-500 hover:bg-gold-400
-                           disabled:bg-gold-300 disabled:cursor-not-allowed
-                           text-white font-medium py-2.5 px-4
-                           rounded-btn transition-all duration-200
-                           text-sm shadow-sm">
-                {loading ? "Resetting..." : "Reset Password"}
-            </button>
+                {/* Confirm Password */}
+                <div className="space-y-1.5">
+                    <Label
+                        htmlFor="confirmPassword">
+                        Confirm Password
+                    </Label>
+                    <div className="relative">
+                        <Input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type={showConfirmPassword ? "text" : "password"}
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            placeholder="Re-enter new password"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(
+                                !showConfirmPassword
+                            )}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                            {showConfirmPassword ? (
+                                <EyeOff size={18} />
+                                    ) : (
+                                <Eye size={18} />
+                            )}
+                        </button>
+                    </div>
+                </div>
 
-        </form>
+                {/* Submit */}
+                <Button
+                    type="submit"
+                    disabled={loading || !token}
+                    className="w-full">
+                    {loading ? "Resetting..." : "Reset Password"}
+                </Button>
+
+            </form>
+        </>
     );
 }

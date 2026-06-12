@@ -1,50 +1,55 @@
 import { Suspense } from "react";
 import ResetPasswordForm from "@/components/auth/reset-password-form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Link from "next/link";
+import { GiChocolateBar } from "react-icons/gi";
 
 export default function ResetPasswordPage() {
     return (
         <main className="min-h-screen bg-cream-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
-
-                {/* Logo & Title */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-chocolate-900 rounded-2xl mb-4">
-                        <span className="text-3xl">🍫</span>
-                    </div>
-                    <h1 className="text-2xl font-bold text-chocolate-900">
-                        Ceylon Chocolate Factory
-                    </h1>
-                    <p className="text-text-muted mt-1 text-sm">
-                        Management System
-                    </p>
-                </div>
-
                 {/* Card */}
-                <div className="bg-white rounded-card shadow-card p-8">
-                    <h2 className="text-xl font-semibold text-text-primary mb-2">
-                        Reset Password
-                    </h2>
-                    <p className="text-text-muted text-sm mb-6">
-                        Enter your new password below.
-                    </p>
-                    <Suspense fallback={
-                        <div className="text-center text-text-muted text-sm">
-                            Loading...
+                <Card>
+                    <CardHeader>
+                        {/* Logo & Title */}
+                        <div className="text-center mb-8">
+                            <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-4">
+                                <GiChocolateBar className="h-8 w-8 text-primary" />
+                            </div>
+                            <h1 className="text-2xl font-bold text-foreground">
+                                Ceylon Chocolate
+                            </h1>
+                            <p className="text-sm text-muted-foreground mt-1">
+                                Factory Management System
+                            </p>
                         </div>
-                    }>
-                        <ResetPasswordForm />
-                    </Suspense>
-                </div>
+                    </CardHeader>
+                    <CardContent>
+                        <Suspense fallback={
+                            <div className="text-center text-text-muted text-sm">
+                                Loading...
+                            </div>
+                        }>
+                            <ResetPasswordForm />
+                        </Suspense>
+                    </CardContent>
+                </Card>
 
                 {/* Back to login */}
-                <p className="text-center text-text-muted text-sm mt-6">
+                <p className="text-center text-sm text-muted-foreground mt-6">
                     Remember your password?{" "}
-                    <a
+                    <Link
                         href="/login"
-                        className="text-gold-500 hover:text-gold-400
-                                   font-medium transition-colors">
+                        className="text-primary hover:underline"
+                    >
                         Sign in
-                    </a>
+                    </Link>
                 </p>
 
             </div>
