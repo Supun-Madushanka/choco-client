@@ -1,53 +1,95 @@
-import { NextRequest, NextResponse } from "next/server";
-import { ROLE_PERMISSIONS } from "./lib/permissions";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const PUBLIC_ROUTES = ["/login"];
+const publicRoutes = [
+    "/login",
+    "/forgot-password",
+    "/reset-password",
+    "/accept-invitation",
+];
+
+// Which roles can access which routes
+const roleRouteAccess: Record<string, string[]> = {
+    SUPER_ADMIN: [
+        "/dashboard/overview",
+        "/dashboard/users",
+        "/dashboard/hr",
+        "/dashboard/raw-materials",
+        "/dashboard/suppliers",
+        "/dashboard/production",
+        "/dashboard/inventory",
+        "/dashboard/sales",
+        "/dashboard/finance",
+        "/dashboard/reports",
+        "/dashboard/settings",
+        "/dashboard/profile",
+        "/dashboard/change-password",
+    ],
+    HR_MANAGER: [
+        "/dashboard/hr",
+        "/dashboard/reports",
+        "/dashboard/profile",
+        "/dashboard/change-password",
+    ],
+    //add other roles and their allowed routes here
+};
+
+// Default dashboard per role
+const roleDashboards: Record<string, string> = {
+    SUPER_ADMIN:           "/dashboard/overview",
+    HR_MANAGER:            "/dashboard/hr",
+    //add other roles and their default dashboards here
+};
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const accessToken = request.cookies.get("access-token")?.value;
-  const userRole = request.cookies.get("user-role")?.value;
+    const { pathname } = request.nextUrl;
 
-  const isPublicRoute = PUBLIC_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
+    const token = request.cookies.get("accessToken")?.value;
+    const role = request.cookies.get("userRole")?.value;
 
-  if (!accessToken && !isPublicRoute) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  if (accessToken && isPublicRoute) {
-    return NextResponse.redirect(
-      new URL("/dashboard", request.url)
-    );
-  }
-
-  if (accessToken && userRole) {
-    const allowedRoutes =
-      ROLE_PERMISSIONS[
-        userRole as keyof typeof ROLE_PERMISSIONS
-      ] ?? [];
-
-    const isAllowed = allowedRoutes.some(
-      (route) =>
-        pathname === route ||
-        pathname.startsWith(`${route}/`)
+    const isPublicRoute = publicRoutes.some(
+        (route) => pathname.startsWith(route)
     );
 
-    if (!isAllowed) {
-      return NextResponse.redirect(
-        new URL("/dashboard", request.url)
-      );
+    // No token → redirect to login
+    if (!token && !isPublicRoute) {
+        return NextResponse.redirect(
+            new URL("/login", request.url)
+        );
     }
-  }
 
-  return NextResponse.next();
+    // Has token + public route → redirect to dashboard
+    if (token && isPublicRoute) {
+        const defaultDash = role
+            ? roleDashboards[role]
+            : "/dashboard/overview";
+        return NextResponse.redirect(
+            new URL(defaultDash, request.url)
+        );
+    }
+
+    // Has token + dashboard route → check role access
+    if (token && role && pathname.startsWith("/dashboard")) {
+        const allowedRoutes = roleRouteAccess[role] || [];
+        const hasAccess = allowedRoutes.some(
+            (route) => pathname.startsWith(route)
+        );
+
+        if (!hasAccess) {
+            // Redirect to their default dashboard
+            const defaultDash = roleDashboards[role] ||
+                "/dashboard/overview";
+            return NextResponse.redirect(
+                new URL(defaultDash, request.url)
+            );
+        }
+    }
+
+    return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.png|.*\\.jpg|.*\\.svg).*)",
-  ],
+    matcher: [
+        "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    ],
 };

@@ -1,54 +1,83 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { LoginResponseData } from "@/types/auth";
-
-const setCookie = (name: string, value: string, days = 1) => {
-  const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Strict`;
-};
-
-const deleteCookie = (name: string) => {
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-};
+import { UserResponse } from "@/types/auth";
+import Cookies from "js-cookie";
 
 interface AuthState {
-  user: Omit<LoginResponseData, "accessToken" | "refreshToken"> | null;
-  accessToken: string | null;
-  refreshToken: string | null;
-  setAuth: (data: LoginResponseData) => void;
-  clearAuth: () => void;
+    user: UserResponse | null;
+    accessToken: string | null;
+    refreshToken: string | null;
+    isAuthenticated: boolean;
+
+    // Actions
+    setAuth: (
+        user: UserResponse,
+        accessToken: string,
+        refreshToken: string
+    ) => void;
+    clearAuth: () => void;
+    updateUser: (user: UserResponse) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      user: null,
-      accessToken: null,
-      refreshToken: null,
+    persist(
+        (set) => ({
+            user: null,
+            accessToken: null,
+            refreshToken: null,
+            isAuthenticated: false,
 
-      setAuth: (data) => {
-        setCookie("access-token", data.accessToken, 1);
-        setCookie("user-role", data.role, 1);
+            setAuth: (user, accessToken, refreshToken) => {
+                // Save to localStorage for axios interceptor
+                localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("refreshToken", refreshToken);
 
-        set({
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-          user: {
-            userId: data.userId,
-            fullName: data.fullName,
-            email: data.email,
-            role: data.role,
-            roleDisplayName: data.roleDisplayName,
-          },
-        });
-      },
+                // Also save to cookies for middleware
+                Cookies.set("accessToken", accessToken, { expires: 1 });
+                Cookies.set("refreshToken", refreshToken, { expires: 7 });
 
-      clearAuth: () => {
-        deleteCookie("access-token");
-        deleteCookie("user-role");
-        set({ user: null, accessToken: null, refreshToken: null });
-      },
-    }),
-    { name: "auth-storage" }
-  )
+                // Save role to cookie for middleware
+                Cookies.set("userRole", user.role, { expires: 1 });
+
+                set({
+                    user,
+                    accessToken,
+                    refreshToken,
+                    isAuthenticated: true,
+                });
+            },
+
+            clearAuth: () => {
+                // Clear localStorage
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+
+                // Also clear cookies
+                Cookies.remove("accessToken");
+                Cookies.remove("refreshToken");
+                Cookies.remove("userRole");
+
+                set({
+                    user: null,
+                    accessToken: null,
+                    refreshToken: null,
+                    isAuthenticated: false,
+                });
+            },
+
+            updateUser: (user) => {
+                set({ user });
+            },
+        }),
+        {
+            name: "auth-storage",
+            // Only persist these fields
+            partialize: (state) => ({
+                user: state.user,
+                accessToken: state.accessToken,
+                refreshToken: state.refreshToken,
+                isAuthenticated: state.isAuthenticated,
+            }),
+        }
+    )
 );

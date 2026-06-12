@@ -1,6 +1,6 @@
-import LoginForm from "@/components/auth/login-form";
+import ForgotPasswordForm from "@/components/auth/forgot-password-form";
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
     return (
         <main className="min-h-screen bg-cream-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -18,17 +18,27 @@ export default function LoginPage() {
                     </p>
                 </div>
 
-                {/* Login Card */}
+                {/* Card */}
                 <div className="bg-white rounded-card shadow-card p-8">
-                    <h2 className="text-xl font-semibold text-text-primary mb-6">
-                        Sign in to your account
+                    <h2 className="text-xl font-semibold text-text-primary mb-2">
+                        Forgot Password
                     </h2>
-                    <LoginForm />
+                    <p className="text-text-muted text-sm mb-6">
+                        Enter your email address and we'll send you
+                        a link to reset your password.
+                    </p>
+                    <ForgotPasswordForm />
                 </div>
 
-                {/* Footer */}
-                <p className="text-center text-text-muted text-xs mt-6">
-                    © 2026 Ceylon Chocolate Factory. All rights reserved.
+                {/* Back to login */}
+                <p className="text-center text-text-muted text-sm mt-6">
+                    Remember your password?{" "}
+                    <a
+                        href="/login"
+                        className="text-gold-500 hover:text-gold-400
+                                   font-medium transition-colors">
+                        Sign in
+                    </a>
                 </p>
 
             </div>

@@ -1,6 +1,7 @@
-import LoginForm from "@/components/auth/login-form";
+import { Suspense } from "react";
+import AcceptInvitationForm from "@/components/auth/accept-invitation-form";
 
-export default function LoginPage() {
+export default function AcceptInvitationPage() {
     return (
         <main className="min-h-screen bg-cream-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -18,18 +19,24 @@ export default function LoginPage() {
                     </p>
                 </div>
 
-                {/* Login Card */}
+                {/* Card */}
                 <div className="bg-white rounded-card shadow-card p-8">
-                    <h2 className="text-xl font-semibold text-text-primary mb-6">
-                        Sign in to your account
+                    <h2 className="text-xl font-semibold text-text-primary mb-2">
+                        Complete Registration
                     </h2>
-                    <LoginForm />
+                    <p className="text-text-muted text-sm mb-6">
+                        You have been invited to join Ceylon Chocolate
+                        Factory Management System. Please complete
+                        your registration below.
+                    </p>
+                    <Suspense fallback={
+                        <div className="text-center text-text-muted text-sm">
+                            Loading...
+                        </div>
+                    }>
+                        <AcceptInvitationForm />
+                    </Suspense>
                 </div>
-
-                {/* Footer */}
-                <p className="text-center text-text-muted text-xs mt-6">
-                    © 2026 Ceylon Chocolate Factory. All rights reserved.
-                </p>
 
             </div>
         </main>

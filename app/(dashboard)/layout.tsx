@@ -1,27 +1,27 @@
-import AppSidebar from "@/components/layout/sidebar";
+import Sidebar from "@/components/layout/sidebar";
 import Navbar from "@/components/layout/navbar";
 
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
-
-export default function Layout({
-  children,
+export default function DashboardLayout({
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <SidebarProvider>
-      <AppSidebar />
+    return (
+        <div className="min-h-screen bg-cream-50">
 
-      <SidebarInset>
-        <Navbar />
+            {/* Sidebar */}
+            <Sidebar />
 
-        <main className="flex-1 p-6">
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
-  );
+            {/* Navbar */}
+            <Navbar />
+
+            {/* Main Content */}
+            <main className="ml-[260px] pt-16 min-h-screen">
+                <div className="p-6">
+                    {children}
+                </div>
+            </main>
+
+        </div>
+    );
 }

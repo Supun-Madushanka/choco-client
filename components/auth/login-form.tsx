@@ -1,185 +1,192 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  Eye,
-  EyeOff,
-  Loader2,
-  Mail,
-  LockKeyhole,
-} from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent } from "@/components/ui/card";
-
-import { loginUser } from "@/services/auth-service";
+import { authService } from "@/services/auth-service";
 import { useAuthStore } from "@/store/auth-store";
-
-const loginSchema = z.object({
-  email: z.string().email("Enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { LoginRequest } from "@/types/auth";
 
 export default function LoginForm() {
-  const router = useRouter();
-  const setAuth = useAuthStore((s) => s.setAuth);
+    const router = useRouter();
+    const { setAuth } = useAuthStore();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const [formData, setFormData] = useState<LoginRequest>({
+        email: "",
+        password: "",
+    });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-  });
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = async (values: LoginFormData) => {
-    setError(null);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setError(null);
+    };
 
-    try {
-      const res = await loginUser(values);
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-      if (!res.success) {
-        setError(res.message || "Login failed. Please try again.");
-        return;
-      }
+        try {
+            // Step 1 — Login
+            const loginResponse = await authService.login(formData);
 
-      setAuth(res.data);
+            if (!loginResponse.success) {
+                setError(loginResponse.message);
+                return;
+            }
 
-      router.push("/dashboard");
-    } catch (err: any) {
-      const msg =
-        err?.response?.data?.message ||
-        "Something went wrong. Please try again.";
+            const { accessToken, refreshToken } = loginResponse.data;
 
-      setError(msg);
-    }
-  };
+            // Set token first so axios interceptor can use it
+            localStorage.setItem("accessToken", accessToken);
 
-  return (
-    <Card className="w-full max-w-md border-0 shadow-2xl bg-background/95 backdrop-blur">
-      <CardContent className="p-8">
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-foreground">
-            Welcome Back
-          </h1>
+            // Step 2 — Get user details
+            const meResponse = await authService.getMe();
 
-          <p className="mt-2 text-muted-foreground">
-            Sign in to access your dashboard
-          </p>
-        </div>
+            // Step 3 — Save to store
+            setAuth(meResponse.data, accessToken, refreshToken);
 
-        {/* Server Error */}
-        {error && (
-          <Alert variant="destructive" className="mb-5 border-destructive bg-destructive/10 text-destructive shadow-sm">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+            // Step 4 — Redirect based on role
+            const role = loginResponse.data.role;
+            redirectByRole(role);
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-5"
-        >
-          {/* Email */}
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+        } catch (err: unknown) {
+            if (err && typeof err === "object" && "response" in err) {
+                const axiosError = err as {
+                    response?: {
+                        data?: { message?: string }
+                    }
+                };
+                setError(
+                    axiosError.response?.data?.message ||
+                    "Invalid email or password"
+                );
+            } else {
+                setError("Something went wrong. Please try again.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+    const redirectByRole = (role: string) => {
+        const dashboards: Record<string, string> = {
+            SUPER_ADMIN:           "/dashboard/overview",
+            HR_MANAGER:            "/dashboard/hr",
+            PRODUCTION_MANAGER:    "/dashboard/production",
+            WAREHOUSE_MANAGER:     "/dashboard/warehouse",
+            FINANCE_MANAGER:       "/dashboard/finance",
+            SALES_MANAGER:         "/dashboard/sales",
+            PROCUREMENT_MANAGER:   "/dashboard/procurement",
+            QC_MANAGER:            "/dashboard/quality",
+            HR_OFFICER:            "/dashboard/hr",
+            PRODUCTION_SUPERVISOR: "/dashboard/production",
+            PRODUCTION_OPERATOR:   "/dashboard/production",
+            WAREHOUSE_SUPERVISOR:  "/dashboard/warehouse",
+            WAREHOUSE_STAFF:       "/dashboard/warehouse",
+            FINANCE_OFFICER:       "/dashboard/finance",
+            SALES_OFFICER:         "/dashboard/sales",
+            PROCUREMENT_OFFICER:   "/dashboard/procurement",
+            QC_CONTROLLER:         "/dashboard/quality",
+        };
 
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@ceylonchocolate.lk"
-                autoComplete="email"
-                {...register("email")}
-                className="h-12 pl-10"
-              />
+        router.push(dashboards[role] || "/dashboard/overview");
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-5">
+
+            {/* Error Message */}
+            {error && (
+                <div className="bg-error-light border border-error
+                                text-error rounded-btn px-4 py-3 text-sm">
+                    {error}
+                </div>
+            )}
+
+            {/* Email */}
+            <div className="space-y-1.5">
+                <label
+                    htmlFor="email"
+                    className="text-sm font-medium text-text-primary">
+                    Email Address
+                </label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@ceylonchocolate.lk"
+                    required
+                    className="w-full px-4 py-2.5 rounded-btn border
+                               border-cream-200 bg-white text-text-primary
+                               placeholder:text-text-muted text-sm
+                               focus:outline-none focus:ring-2
+                               focus:ring-gold-500 focus:border-transparent
+                               transition-all duration-200"
+                />
             </div>
 
-            {errors.email && (
-              <p className="text-xs text-destructive">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-
-            <div className="relative">
-              <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                autoComplete="current-password"
-                {...register("password")}
-                className="h-12 pl-10 pr-10"
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? (
-                  <EyeOff size={18} />
-                ) : (
-                  <Eye size={18} />
-                )}
-              </button>
+            {/* Password */}
+            <div className="space-y-1.5">
+                <label
+                    htmlFor="password"
+                    className="text-sm font-medium text-text-primary">
+                    Password
+                </label>
+                <div className="relative">
+                    <input
+                        id="password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Enter your password"
+                        required
+                        className="w-full px-4 py-2.5 rounded-btn border
+                                   border-cream-200 bg-white text-text-primary
+                                   placeholder:text-text-muted text-sm
+                                   focus:outline-none focus:ring-2
+                                   focus:ring-gold-500 focus:border-transparent
+                                   transition-all duration-200 pr-12"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2
+                                   text-text-muted hover:text-text-primary
+                                   transition-colors">
+                        {showPassword ? "🙈" : "👁️"}
+                    </button>
+                </div>
             </div>
 
-            {errors.password && (
-              <p className="text-xs text-destructive">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+            {/* Forgot Password */}
+            <div className="flex justify-end">
+                <a
+                    href="/forgot-password"
+                    className="text-sm text-gold-500 hover:text-gold-400
+                               font-medium transition-colors">
+                    Forgot password?
+                </a>
+            </div>
 
-          {/* Forgot Password */}
-          <div className="flex justify-end">
-            <Link
-              href="/forgot-password"
-              className="text-sm text-primary hover:underline"
-            >
-              Forgot Password?
-            </Link>
-          </div>
+            {/* Submit Button */}
+            <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gold-500 hover:bg-gold-400
+                           disabled:bg-gold-300 disabled:cursor-not-allowed
+                           text-white font-medium py-2.5 px-4
+                           rounded-btn transition-all duration-200
+                           text-sm shadow-sm">
+                {loading ? "Signing in..." : "Sign In"}
+            </button>
 
-          {/* Submit */}
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full h-12 text-base"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing In...
-              </>
-            ) : (
-              "Sign In"
-            )}
-          </Button>
         </form>
-      </CardContent>
-    </Card>
-  );
+    );
 }
