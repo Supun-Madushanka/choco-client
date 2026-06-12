@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GiChocolateBar } from "react-icons/gi";
+import { Alert, AlertDescription } from "../ui/alert";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -123,10 +124,9 @@ export default function LoginForm() {
 
                     {/* Error Message */}
                     {error && (
-                        <div className="bg-error-light border border-error
-                                        text-error rounded-btn px-4 py-3 text-sm">
-                            {error}
-                        </div>
+                        <Alert variant="destructive" className="mb-5 border-destructive bg-destructive/10 text-destructive shadow-sm">
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
                     )}
 
                     {/* Email */}

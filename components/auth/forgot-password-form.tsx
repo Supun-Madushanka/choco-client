@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { authService } from "@/services/auth-service";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export default function ForgotPasswordForm() {
 
@@ -42,79 +46,79 @@ export default function ForgotPasswordForm() {
     if (success) {
         return (
             <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center
-                                w-16 h-16 bg-success-light rounded-full">
-                    <span className="text-3xl">📧</span>
-                </div>
-                <h3 className="text-lg font-semibold text-text-primary">
+                <div className="text-5xl">📧</div>
+
+                <h3 className="text-lg font-semibold">
                     Check your email!
                 </h3>
-                <p className="text-text-muted text-sm">
-                    If your email is registered you will receive
-                    a password reset link shortly.
+
+                <p className="text-sm text-muted-foreground">
+                    If your email is registered, you will receive a password
+                    reset link shortly.
                 </p>
-                <a
-                    href="/login"
-                    className="inline-block w-full bg-gold-500
-                               hover:bg-gold-400 text-white font-medium
-                               py-2.5 px-4 rounded-btn transition-all
-                               duration-200 text-sm text-center mt-4">
+
+                <Button asChild className="w-full">
+                    <Link href="/login">
                     Back to Login
-                </a>
+                    </Link>
+                </Button>
             </div>
-        );
-    }
+            );
+        }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <>
+            <div className="mb-6">
+                <h2 className="text-ml font-semibold text-foreground">
+                Forgot Password
+                </h2>
 
-            {/* Error Message */}
-            {error && (
-                <div className="bg-error-light border border-error
-                                text-error rounded-btn px-4 py-3 text-sm">
-                    {error}
-                </div>
-            )}
-
-            {/* Email */}
-            <div className="space-y-1.5">
-                <label
-                    htmlFor="email"
-                    className="text-sm font-medium text-text-primary">
-                    Email Address
-                </label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                        setError(null);
-                    }}
-                    placeholder="you@ceylonchocolate.lk"
-                    required
-                    className="w-full px-4 py-2.5 rounded-btn border
-                               border-cream-200 bg-white text-text-primary
-                               placeholder:text-text-muted text-sm
-                               focus:outline-none focus:ring-2
-                               focus:ring-gold-500 focus:border-transparent
-                               transition-all duration-200"
-                />
+                <p className="text-sm text-muted-foreground mt-1">
+                Enter your email address and we'll send you a link to
+                reset your password.
+                </p>
             </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Submit */}
-            <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gold-500 hover:bg-gold-400
-                           disabled:bg-gold-300 disabled:cursor-not-allowed
-                           text-white font-medium py-2.5 px-4
-                           rounded-btn transition-all duration-200
-                           text-sm shadow-sm">
-                {loading ? "Sending..." : "Send Reset Link"}
-            </button>
+                {/* Error Message */}
+                {error && (
+                    <div className="bg-error-light border border-error
+                                    text-error rounded-btn px-4 py-3 text-sm">
+                        {error}
+                    </div>
+                )}
 
-        </form>
+                {/* Email */}
+                <div className="space-y-1.5">
+                    <Label
+                        htmlFor="email"
+                    >
+                        Email
+                    </Label>
+                    <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                            setError(null);
+                        }}
+                        placeholder="you@ceylonchocolate.lk"
+                        required
+                    />
+                </div>
+
+                {/* Submit */}
+                <Button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full"
+                >
+                    {loading ? "Sending..." : "Send Reset Link"}
+                </Button>
+
+            </form>
+        </>
     );
 }
