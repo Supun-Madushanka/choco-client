@@ -4,21 +4,34 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { authService } from "@/services/auth-service";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { User, KeyRound, LogOut, ChevronDown, Menu } from "lucide-react";
+import Sidebar from "@/components/layout/sidebar";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 export default function Navbar() {
 
     const router = useRouter();
     const { user, clearAuth } = useAuthStore();
-
-    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleLogout = async () => {
         setLoggingOut(true);
         try {
             await authService.logout();
         } catch {
-            // Even if logout API fails, clear local state
+            // clear anyway
         } finally {
             clearAuth();
             router.push("/login");
@@ -26,133 +39,101 @@ export default function Navbar() {
     };
 
     return (
-        <header className="fixed top-0 left-[260px] right-0 h-16
-                           bg-white border-b border-cream-200
-                           flex items-center justify-between
-                           px-6 z-30">
+        <header className="fixed top-0 left-0 md:left-65 right-0
+                           h-16 bg-white border-b border-cream-200
+                           flex items-center justify-between px-4 md:px-6 z-30">
 
-            {/* Left — Page will inject title here later */}
-            <div className="flex items-center gap-2">
-                <div className="w-1 h-6 bg-gold-500 rounded-full"/>
-                <h1 className="text-base font-semibold text-text-primary">
-                    Ceylon Chocolate Factory
-                </h1>
+            {/* Left */}
+            <div className="flex items-center gap-3">
+
+                {/* Mobile hamburger */}
+                <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                    <SheetTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="md:hidden text-foreground">
+                            <Menu size={20} />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="p-0 w-65 max-w-65">
+                        <VisuallyHidden>
+                            <SheetTitle>Navigation Menu</SheetTitle>
+                        </VisuallyHidden>
+                        <Sidebar onClose={() => setMobileOpen(false)} />
+                    </SheetContent>
+                </Sheet>
+
+                <div className="flex items-center gap-2">
+                    <div className="w-1 h-6 bg-primary rounded-full hidden md:block" />
+                    <h1 className="text-sm md:text-base font-semibold text-foreground">
+                        Ceylon Chocolate Factory
+                    </h1>
+                </div>
             </div>
 
-            {/* Right — User menu */}
-            <div className="relative">
-                <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-3 hover:bg-cream-50
-                               px-3 py-2 rounded-btn transition-colors">
+            {/* Right */}
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        variant="ghost"
+                        className="flex items-center gap-2 md:gap-3 px-2 md:px-3 h-10">
+                        <Avatar className="w-8 h-8">
+                            <AvatarFallback className="bg-chocolate-900 text-white text-sm font-semibold">
+                                {user?.fullName?.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="text-left hidden sm:block">
+                            <p className="text-sm font-medium text-foreground leading-tight">
+                                {user?.fullName}
+                            </p>
+                            <p className="text-xs text-muted-foreground leading-tight">
+                                {user?.roleDisplayName}
+                            </p>
+                        </div>
+                        <ChevronDown size={14} className="text-muted-foreground hidden sm:block" />
+                    </Button>
+                </DropdownMenuTrigger>
 
-                    {/* Avatar */}
-                    <div className="w-8 h-8 bg-chocolate-900 rounded-full
-                                    flex items-center justify-center
-                                    text-white text-sm font-semibold">
-                        {user?.fullName?.charAt(0).toUpperCase()}
-                    </div>
-
-                    {/* Name & Role */}
-                    <div className="text-left hidden sm:block">
-                        <p className="text-sm font-medium text-text-primary
-                                      leading-tight">
+                <DropdownMenuContent align="end" className="w-52">
+                    <DropdownMenuLabel className="pb-2">
+                        <p className="text-sm font-medium text-foreground truncate">
                             {user?.fullName}
                         </p>
-                        <p className="text-xs text-text-muted leading-tight">
-                            {user?.roleDisplayName}
+                        <p className="text-xs text-muted-foreground font-normal truncate mt-0.5">
+                            {user?.email}
                         </p>
-                    </div>
+                    </DropdownMenuLabel>
 
-                    {/* Chevron */}
-                    <span className={`text-text-muted text-xs transition-transform
-                                     duration-200
-                                     ${dropdownOpen ? "rotate-180" : ""}`}>
-                        ▼
-                    </span>
-                </button>
+                    <DropdownMenuSeparator />
 
-                {/* Dropdown */}
-                {dropdownOpen && (
-                    <>
-                        {/* Backdrop */}
-                        <div
-                            className="fixed inset-0 z-10"
-                            onClick={() => setDropdownOpen(false)}
-                        />
+                    <DropdownMenuItem
+                        onClick={() => router.push("/dashboard/profile")}
+                        className="gap-3 cursor-pointer">
+                        <User size={15} className="text-text-muted" />
+                        <span>My Profile</span>
+                    </DropdownMenuItem>
 
-                        {/* Menu */}
-                        <div className="absolute right-0 top-full mt-2
-                                        w-48 bg-white rounded-card
-                                        shadow-card border border-cream-200
-                                        z-20 overflow-hidden">
+                    <DropdownMenuItem
+                        onClick={() => router.push("/dashboard/change-password")}
+                        className="gap-3 cursor-pointer">
+                        <KeyRound size={15} className="text-text-muted" />
+                        <span>Change Password</span>
+                    </DropdownMenuItem>
 
-                            {/* User info */}
-                            <div className="px-4 py-3 border-b border-cream-200">
-                                <p className="text-sm font-medium
-                                              text-text-primary truncate">
-                                    {user?.fullName}
-                                </p>
-                                <p className="text-xs text-text-muted truncate">
-                                    {user?.email}
-                                </p>
-                            </div>
+                    <DropdownMenuSeparator />
 
-                            {/* Menu items */}
-                            <div className="py-1">
-                                <button
-                                    onClick={() => {
-                                        setDropdownOpen(false);
-                                        router.push("/dashboard/profile");
-                                    }}
-                                    className="w-full flex items-center gap-3
-                                               px-4 py-2.5 text-sm
-                                               text-text-primary
-                                               hover:bg-cream-50
-                                               transition-colors">
-                                    <span>👤</span>
-                                    <span>My Profile</span>
-                                </button>
+                    <DropdownMenuItem
+                        onClick={handleLogout}
+                        disabled={loggingOut}
+                        className="gap-3 cursor-pointer text-error focus:text-error focus:bg-error-light">
+                        <LogOut size={15} />
+                        <span>{loggingOut ? "Logging out..." : "Logout"}</span>
+                    </DropdownMenuItem>
 
-                                <button
-                                    onClick={() => {
-                                        setDropdownOpen(false);
-                                        router.push(
-                                            "/dashboard/change-password"
-                                        );
-                                    }}
-                                    className="w-full flex items-center gap-3
-                                               px-4 py-2.5 text-sm
-                                               text-text-primary
-                                               hover:bg-cream-50
-                                               transition-colors">
-                                    <span>🔐</span>
-                                    <span>Change Password</span>
-                                </button>
+                </DropdownMenuContent>
+            </DropdownMenu>
 
-                                <div className="border-t border-cream-200 mt-1 pt-1">
-                                    <button
-                                        onClick={handleLogout}
-                                        disabled={loggingOut}
-                                        className="w-full flex items-center
-                                                   gap-3 px-4 py-2.5 text-sm
-                                                   text-error
-                                                   hover:bg-error-light
-                                                   transition-colors
-                                                   disabled:opacity-50">
-                                        <span>🚪</span>
-                                        <span>
-                                            {loggingOut
-                                                ? "Logging out..."
-                                                : "Logout"}
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>
         </header>
     );
 }

@@ -7,17 +7,20 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-cream-50">
+        <div className="min-h-screen bg-background">
 
-            {/* Sidebar */}
-            <Sidebar />
+            {/* Sidebar — hidden on mobile */}
+            <aside className="hidden md:block fixed top-0 left-0
+                              h-screen w-65 z-40">
+                <Sidebar />
+            </aside>
 
             {/* Navbar */}
             <Navbar />
 
             {/* Main Content */}
-            <main className="ml-[260px] pt-16 min-h-screen">
-                <div className="p-6">
+            <main className="md:ml-65 pt-16 min-h-screen">
+                <div className="p-4 md:p-6">
                     {children}
                 </div>
             </main>

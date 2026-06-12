@@ -1,7 +1,22 @@
+import {
+    LayoutDashboard,
+    Users,
+    UserCog,
+    Leaf,
+    Handshake,
+    Factory,
+    Package,
+    ShoppingCart,
+    Wallet,
+    BarChart3,
+    Settings,
+    LucideIcon,
+} from "lucide-react";
+
 export interface NavItem {
     label: string;
     href: string;
-    icon: string;
+    icon: LucideIcon;
 }
 
 export interface NavGroup {
@@ -9,7 +24,6 @@ export interface NavGroup {
     items: NavItem[];
 }
 
-// All navigation items
 export const allNavItems: NavGroup[] = [
     {
         group: "General",
@@ -17,7 +31,7 @@ export const allNavItems: NavGroup[] = [
             {
                 label: "Overview",
                 href: "/dashboard/overview",
-                icon: "📊",
+                icon: LayoutDashboard,
             },
         ],
     },
@@ -27,12 +41,12 @@ export const allNavItems: NavGroup[] = [
             {
                 label: "User Management",
                 href: "/dashboard/users",
-                icon: "👥",
+                icon: Users,
             },
             {
                 label: "HR Management",
                 href: "/dashboard/hr",
-                icon: "👨‍💼",
+                icon: UserCog,
             },
         ],
     },
@@ -42,27 +56,27 @@ export const allNavItems: NavGroup[] = [
             {
                 label: "Raw Materials",
                 href: "/dashboard/raw-materials",
-                icon: "🌿",
+                icon: Leaf,
             },
             {
                 label: "Suppliers",
                 href: "/dashboard/suppliers",
-                icon: "🤝",
+                icon: Handshake,
             },
             {
                 label: "Production",
                 href: "/dashboard/production",
-                icon: "🏭",
+                icon: Factory,
             },
             {
                 label: "Inventory",
                 href: "/dashboard/inventory",
-                icon: "📦",
+                icon: Package,
             },
             {
                 label: "Sales & Orders",
                 href: "/dashboard/sales",
-                icon: "🛒",
+                icon: ShoppingCart,
             },
         ],
     },
@@ -72,7 +86,7 @@ export const allNavItems: NavGroup[] = [
             {
                 label: "Finance",
                 href: "/dashboard/finance",
-                icon: "💰",
+                icon: Wallet,
             },
         ],
     },
@@ -82,7 +96,7 @@ export const allNavItems: NavGroup[] = [
             {
                 label: "Reports",
                 href: "/dashboard/reports",
-                icon: "📈",
+                icon: BarChart3,
             },
         ],
     },
@@ -92,13 +106,17 @@ export const allNavItems: NavGroup[] = [
             {
                 label: "Settings",
                 href: "/dashboard/settings",
-                icon: "⚙️",
+                icon: Settings,
             },
+            {
+                label: "Admin Settings",
+                href: "/dashboard/admin-settings",
+                icon: Settings,
+            }
         ],
     },
 ];
 
-// Nav items per role
 export const roleNavItems: Record<string, string[]> = {
     SUPER_ADMIN: [
         "/dashboard/overview",
@@ -117,74 +135,72 @@ export const roleNavItems: Record<string, string[]> = {
         "/dashboard/hr",
         "/dashboard/reports",
     ],
-    HR_OFFICER: [
-        "/dashboard/hr",
-        "/dashboard/reports",
-    ],
-    PRODUCTION_MANAGER: [
-        "/dashboard/production",
-        "/dashboard/inventory",
-        "/dashboard/raw-materials",
-        "/dashboard/reports",
-    ],
-    PRODUCTION_SUPERVISOR: [
-        "/dashboard/production",
-        "/dashboard/inventory",
-    ],
-    PRODUCTION_OPERATOR: [
-        "/dashboard/production",
-    ],
-    WAREHOUSE_MANAGER: [
-        "/dashboard/inventory",
-        "/dashboard/raw-materials",
-        "/dashboard/reports",
-    ],
-    WAREHOUSE_SUPERVISOR: [
-        "/dashboard/inventory",
-        "/dashboard/raw-materials",
-    ],
-    WAREHOUSE_STAFF: [
-        "/dashboard/inventory",
-        "/dashboard/raw-materials",
-    ],
-    FINANCE_MANAGER: [
-        "/dashboard/finance",
-        "/dashboard/reports",
-    ],
-    FINANCE_OFFICER: [
-        "/dashboard/finance",
-        "/dashboard/reports",
-    ],
-    SALES_MANAGER: [
-        "/dashboard/sales",
-        "/dashboard/finance",
-        "/dashboard/reports",
-    ],
-    SALES_OFFICER: [
-        "/dashboard/sales",
-    ],
-    PROCUREMENT_MANAGER: [
-        "/dashboard/suppliers",
-        "/dashboard/raw-materials",
-        "/dashboard/reports",
-    ],
-    PROCUREMENT_OFFICER: [
-        "/dashboard/suppliers",
-        "/dashboard/raw-materials",
-    ],
-    QC_MANAGER: [
-        "/dashboard/production",
-        "/dashboard/reports",
-    ],
-    QC_CONTROLLER: [
-        "/dashboard/production",
-    ],
+    // HR_OFFICER: [
+    //     "/dashboard/hr",
+    //     "/dashboard/reports",
+    // ],
+    // PRODUCTION_MANAGER: [
+    //     "/dashboard/production",
+    //     "/dashboard/inventory",
+    //     "/dashboard/raw-materials",
+    //     "/dashboard/reports",
+    // ],
+    // PRODUCTION_SUPERVISOR: [
+    //     "/dashboard/production",
+    //     "/dashboard/inventory",
+    // ],
+    // PRODUCTION_OPERATOR: [
+    //     "/dashboard/production",
+    // ],
+    // WAREHOUSE_MANAGER: [
+    //     "/dashboard/inventory",
+    //     "/dashboard/raw-materials",
+    //     "/dashboard/reports",
+    // ],
+    // WAREHOUSE_SUPERVISOR: [
+    //     "/dashboard/inventory",
+    //     "/dashboard/raw-materials",
+    // ],
+    // WAREHOUSE_STAFF: [
+    //     "/dashboard/inventory",
+    //     "/dashboard/raw-materials",
+    // ],
+    // FINANCE_MANAGER: [
+    //     "/dashboard/finance",
+    //     "/dashboard/reports",
+    // ],
+    // FINANCE_OFFICER: [
+    //     "/dashboard/finance",
+    //     "/dashboard/reports",
+    // ],
+    // SALES_MANAGER: [
+    //     "/dashboard/sales",
+    //     "/dashboard/finance",
+    //     "/dashboard/reports",
+    // ],
+    // SALES_OFFICER: [
+    //     "/dashboard/sales",
+    // ],
+    // PROCUREMENT_MANAGER: [
+    //     "/dashboard/suppliers",
+    //     "/dashboard/raw-materials",
+    //     "/dashboard/reports",
+    // ],
+    // PROCUREMENT_OFFICER: [
+    //     "/dashboard/suppliers",
+    //     "/dashboard/raw-materials",
+    // ],
+    // QC_MANAGER: [
+    //     "/dashboard/production",
+    //     "/dashboard/reports",
+    // ],
+    // QC_CONTROLLER: [
+    //     "/dashboard/production",
+    // ],
 };
 
-// Helper — get nav items for a role
 export const getNavItemsForRole = (role: string): NavGroup[] => {
     const allowedRoutes = roleNavItems[role] || [];
-
     return allNavItems
         .map((group) => ({
             ...group,
