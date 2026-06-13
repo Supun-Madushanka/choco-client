@@ -61,4 +61,15 @@ export const authService = {
         );
         return response.data;
     },
+
+    updateProfile: async (
+        fullName: string,
+        phone: string
+    ): Promise<ApiResponse<UserResponse>> => {
+        const response = await axiosInstance.put<ApiResponse<UserResponse>>(
+            "auth/profile",
+            { fullName, phone }
+        );
+        return response.data;
+    },
 };

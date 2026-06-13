@@ -36,6 +36,8 @@ const roleRouteAccess: Record<string, string[]> = {
         "/dashboard/inventory",
         "/dashboard/raw-materials",
         "/dashboard/reports",
+        "/dashboard/profile",
+        "/dashboard/change-password",
     ],
     //add other roles and their allowed routes here
 };
