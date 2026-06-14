@@ -27,6 +27,7 @@ const roleRouteAccess: Record<string, string[]> = {
     ],
     HR_MANAGER: [
         "/dashboard/hr",
+        "/dashboard/users",
         "/dashboard/reports",
         "/dashboard/profile",
         "/dashboard/change-password",

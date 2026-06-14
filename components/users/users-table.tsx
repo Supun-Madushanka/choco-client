@@ -172,12 +172,15 @@ export default function UsersTable({
                                 <TableHead className="text-text-secondary font-medium">
                                     Status
                                 </TableHead>
+                                <TableHead className="text-text-secondary font-medium">
+                                    Phone
+                                </TableHead>
                                 <TableHead className="text-text-secondary font-medium hidden lg:table-cell">
                                     Last Login
                                 </TableHead>
                                 {isSuperAdmin && (
                                     <TableHead className="text-text-secondary font-medium w-12">
-                                        
+                                        Actions
                                     </TableHead>
                                 )}
                             </TableRow>
@@ -186,7 +189,7 @@ export default function UsersTable({
                             {users.length === 0 ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={5}
+                                        colSpan={6}
                                         className="text-center py-12 text-text-muted">
                                         No users found
                                     </TableCell>
@@ -223,7 +226,7 @@ export default function UsersTable({
                                         </TableCell>
 
                                         {/* Role */}
-                                        <TableCell className="hidden md:table-cell">
+                                        <TableCell>
                                             <Badge
                                                 variant="outline"
                                                 className={`text-xs ${getRoleBadgeClass(user.roleLevel)}`}>
@@ -245,8 +248,13 @@ export default function UsersTable({
                                             </Badge>
                                         </TableCell>
 
+                                        {/* Phone */}
+                                        <TableCell className="text-text-primary">
+                                            {user.phone || "Not provided"}
+                                        </TableCell>
+
                                         {/* Last Login */}
-                                        <TableCell className="hidden lg:table-cell text-sm text-text-muted">
+                                        <TableCell className="hidden lg:table-cell text-sm text-text-primary">
                                             {user.lastLoginAt
                                                 ? format(
                                                     new Date(user.lastLoginAt),

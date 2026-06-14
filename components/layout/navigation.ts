@@ -39,14 +39,14 @@ export const allNavItems: NavGroup[] = [
         group: "People",
         items: [
             {
-                label: "User Management",
-                href: "/dashboard/users",
-                icon: Users,
-            },
-            {
                 label: "HR Management",
                 href: "/dashboard/hr",
                 icon: UserCog,
+            },
+            {
+                label: "User Management",
+                href: "/dashboard/users",
+                icon: Users,
             },
         ],
     },
@@ -134,6 +134,7 @@ export const roleNavItems: Record<string, string[]> = {
     HR_MANAGER: [
         "/dashboard/hr",
         "/dashboard/reports",
+        "/dashboard/users",
     ],
     // HR_OFFICER: [
     //     "/dashboard/hr",

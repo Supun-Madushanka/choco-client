@@ -34,7 +34,8 @@ export default function UsersPage() {
         fetchUsers();
     }, []);
 
-    const isSuperAdmin = user?.role === "SUPER_ADMIN";
+    const canInvite = user?.role === "SUPER_ADMIN" || 
+                      user?.role === "HR_MANAGER";
 
     return (
         <div>
@@ -42,7 +43,7 @@ export default function UsersPage() {
                 title="User Management"
                 description="Manage all system users and invitations"
                 action={
-                    isSuperAdmin && (
+                    canInvite && (
                         <Button
                             onClick={() => setInviteOpen(true)}
                             className="bg-primary hover:bg-primary/80 gap-2"

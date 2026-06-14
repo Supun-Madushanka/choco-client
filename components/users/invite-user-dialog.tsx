@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Send } from "lucide-react";
+import { useAuthStore } from "@/store/auth-store";
 
 interface InviteUserDialogProps {
     open: boolean;
@@ -44,6 +45,7 @@ export default function InviteUserDialog({
     const [rolesLoading, setRolesLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
+    const { user } = useAuthStore();
 
     // Fetch roles when dialog opens
     useEffect(() => {
@@ -60,10 +62,23 @@ export default function InviteUserDialog({
         setRolesLoading(true);
         try {
             const response = await userService.getAllRoles();
+
             // Exclude SUPER_ADMIN from invitation
-            const filtered = response.data.filter(
+            let filtered = response.data.filter(
                 (r) => r.name !== "SUPER_ADMIN"
             );
+
+            if (user?.role === "SUPER_ADMIN") {
+                // SUPER_ADMIN can invite MANAGER + STAFF
+                filtered = filtered.filter(
+                    (r) => r.level === "MANAGER" || r.level === "STAFF"
+            );
+        }
+            
+            if (user?.role === "HR_MANAGER") {
+                // HR_MANAGER can only invite STAFF
+                filtered = filtered.filter((r) => r.level === "STAFF");
+            }
             setRoles(filtered);
         } catch {
             setError("Failed to load roles");
