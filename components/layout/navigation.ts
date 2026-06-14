@@ -11,6 +11,7 @@ import {
     BarChart3,
     Settings,
     LucideIcon,
+    ClipboardCheck,
 } from "lucide-react";
 
 export interface NavItem {
@@ -32,6 +33,16 @@ export const allNavItems: NavGroup[] = [
                 label: "Overview",
                 href: "/dashboard/overview",
                 icon: LayoutDashboard,
+            },
+        ],
+    },
+    {
+        group: "My Workspace",
+        items: [
+            {
+                label: "My Attendance",
+                href: "/dashboard/attendance",
+                icon: ClipboardCheck,
             },
         ],
     },
@@ -130,11 +141,13 @@ export const roleNavItems: Record<string, string[]> = {
         "/dashboard/finance",
         "/dashboard/reports",
         "/dashboard/settings",
+        "/dashboard/attendance",
     ],
     HR_MANAGER: [
         "/dashboard/hr",
         "/dashboard/reports",
         "/dashboard/users",
+        "/dashboard/attendance",
     ],
     // HR_OFFICER: [
     //     "/dashboard/hr",
@@ -145,6 +158,7 @@ export const roleNavItems: Record<string, string[]> = {
         "/dashboard/inventory",
         "/dashboard/raw-materials",
         "/dashboard/reports",
+        "/dashboard/attendance",
     ],
     // PRODUCTION_SUPERVISOR: [
     //     "/dashboard/production",

@@ -24,6 +24,7 @@ const roleRouteAccess: Record<string, string[]> = {
         "/dashboard/settings",
         "/dashboard/profile",
         "/dashboard/change-password",
+        "/dashboard/attendance",
     ],
     HR_MANAGER: [
         "/dashboard/hr",
@@ -31,6 +32,7 @@ const roleRouteAccess: Record<string, string[]> = {
         "/dashboard/reports",
         "/dashboard/profile",
         "/dashboard/change-password",
+        "/dashboard/attendance",
     ],
     PRODUCTION_MANAGER: [
         "/dashboard/production",
@@ -39,6 +41,7 @@ const roleRouteAccess: Record<string, string[]> = {
         "/dashboard/reports",
         "/dashboard/profile",
         "/dashboard/change-password",
+        "/dashboard/attendance",
     ],
     //add other roles and their allowed routes here
 };
