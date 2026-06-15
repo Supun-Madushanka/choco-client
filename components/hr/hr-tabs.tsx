@@ -7,7 +7,7 @@ import EmployeesTab from "./employees/employees-tab";
 import DepartmentsTab from "./department/departments-tab";
 import ShiftsTab from "./shifts/shifts-tab";
 import ShiftRosterTab from "./shift-roster/shift-roster-tab";
-// import AttendanceTab from "./attendance-tab";
+import AttendanceManagementTab from "./attendance/attendance-tab";
 // import PayrollTab from "./payroll-tab";
 
 export default function HrTabs() {
@@ -37,12 +37,12 @@ export default function HrTabs() {
                     Shift Roster
                 </TabsTrigger>
 
-                {/*<TabsTrigger value="attendance" className="gap-2">
+                <TabsTrigger value="attendance" className="gap-2">
                     <ClipboardList size={16} />
                     Attendance
                 </TabsTrigger>
 
-                <TabsTrigger value="payroll" className="gap-2">
+                {/*<TabsTrigger value="payroll" className="gap-2">
                     <DollarSign size={16} />
                     Payroll
                 </TabsTrigger> */}
@@ -66,11 +66,11 @@ export default function HrTabs() {
                 <ShiftRosterTab />
             </TabsContent>
 
-            {/*<TabsContent value="attendance">
-                <AttendanceTab />
+            <TabsContent value="attendance">
+                <AttendanceManagementTab />
             </TabsContent>
 
-            <TabsContent value="payroll">
+            {/*<TabsContent value="payroll">
                 <PayrollTab />
             </TabsContent> */}
 

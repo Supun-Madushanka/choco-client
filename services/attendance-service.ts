@@ -68,4 +68,15 @@ export const attendanceService = {
         );
         return response.data;
     },
+
+    createForEmployee: async (
+        employeeId: number,
+        request: AttendanceUpdateRequest
+    ): Promise<ApiResponse<AttendanceResponse>> => {
+        const response = await axiosInstance.post<ApiResponse<AttendanceResponse>>(
+            `attendance/employee/${employeeId}`,
+            request
+        );
+        return response.data;
+    },
 };

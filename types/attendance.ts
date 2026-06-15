@@ -21,6 +21,7 @@ export type AttendanceStatus =
     | "ON_LEAVE";
 
 export interface AttendanceUpdateRequest {
+    workDate: string;
     checkIn?: string;
     checkOut?: string;
     status?: AttendanceStatus;
