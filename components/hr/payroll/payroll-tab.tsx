@@ -175,43 +175,42 @@ export default function PayrollManagementTab() {
             </Card>
 
             {/* Table */}
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
-                <div className="overflow-x-auto">
+            <Card>
+                <CardContent>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     Employee
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right">
-                                    Basic
+                                <TableHead>
+                                    Basic 
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right hidden md:table-cell">
+                                <TableHead>
                                     Allowances
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right hidden lg:table-cell">
+                                <TableHead>
                                     EPF (8%)
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right hidden lg:table-cell">
+                                <TableHead>
                                     ETF (3%)
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right hidden lg:table-cell">
+                                <TableHead>
                                     Tax
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right hidden lg:table-cell">
+                                <TableHead>
                                     Other Ded.
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right">
+                                <TableHead>
                                     Net Salary
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium text-right">
+                                <TableHead>
                                     Paid By
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Status
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium w-20">
+                                <TableHead>
                                     
                                 </TableHead>
                             </TableRow>
@@ -229,7 +228,7 @@ export default function PayrollManagementTab() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={10}
-                                        className="text-center py-12 text-text-muted">
+                                        className="text-center py-5">
                                         No employees found
                                     </TableCell>
                                 </TableRow>
@@ -240,7 +239,7 @@ export default function PayrollManagementTab() {
                                     return (
                                         <TableRow
                                             key={employee.id}
-                                            className="hover:bg-cream-50 transition-colors">
+                                        >
 
                                             <TableCell>
                                                 <p className="text-sm font-medium text-text-primary">
@@ -251,28 +250,28 @@ export default function PayrollManagementTab() {
                                                 </p>
                                             </TableCell>
 
-                                            <TableCell className="text-right text-sm text-text-secondary">
+                                            <TableCell>
                                                 {record ? formatCurrency(record.basicSalary) : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm text-text-secondary hidden md:table-cell">
+                                            <TableCell>
                                                 {record ? formatCurrency(record.allowances) : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm text-error hidden lg:table-cell">
+                                            <TableCell className="text-error">
                                                 {record ? `- ${formatCurrency(record.epfEmployee)}` : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm text-text-muted hidden lg:table-cell">
+                                            <TableCell>
                                                 {record ? formatCurrency(record.etfEmployer) : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm text-error hidden lg:table-cell">
+                                            <TableCell className="text-error">
                                                 {record ? `- ${formatCurrency(record.tax)}` : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm text-error hidden lg:table-cell">
+                                            <TableCell className="text-error">
                                                 {record ? `- ${formatCurrency(record.additionalDeductions)}` : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm font-semibold text-text-primary">
+                                            <TableCell>
                                                 {record ? formatCurrency(record.netSalary) : "—"}
                                             </TableCell>
-                                            <TableCell className="text-right text-sm text-text-secondary">
+                                            <TableCell>
                                                 {record ? record.processedByName : "—"}
                                             </TableCell>
 
@@ -337,8 +336,8 @@ export default function PayrollManagementTab() {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
 
             {/* Process/Edit Dialog */}
             <PayrollProcessDialog

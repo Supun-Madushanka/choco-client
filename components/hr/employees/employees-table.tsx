@@ -40,6 +40,7 @@ import {
     Phone,
 } from "lucide-react";
 import EditEmployeeDialog from "./edit-employee-dialog";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface EmployeesTableProps {
     employees: EmployeeResponse[];
@@ -121,31 +122,30 @@ export default function EmployeesTable({
 
     return (
         <>
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
-                <div className="overflow-x-auto">
+                <Card>
+                    <CardContent>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     Employee
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     No.
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden md:table-cell">
+                                <TableHead>
                                     Department
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden lg:table-cell">
+                                <TableHead>
                                     Contact
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden lg:table-cell">
+                                <TableHead>
                                     Type
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Status
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium w-12">
+                                <TableHead>
                                     
                                 </TableHead>
                             </TableRow>
@@ -155,7 +155,7 @@ export default function EmployeesTable({
                                 <TableRow>
                                     <TableCell
                                         colSpan={7}
-                                        className="text-center py-12 text-text-muted">
+                                        className="text-center py-5">
                                         No employees found
                                     </TableCell>
                                 </TableRow>
@@ -163,7 +163,7 @@ export default function EmployeesTable({
                                 employees.map((employee) => (
                                     <TableRow
                                         key={employee.id}
-                                        className="hover:bg-cream-50 transition-colors">
+                                    >
 
                                         {/* Employee */}
                                         <TableCell>
@@ -202,18 +202,16 @@ export default function EmployeesTable({
                                         </TableCell>
 
                                         {/* Department */}
-                                        <TableCell className="hidden md:table-cell">
-                                            <p className="text-sm text-text-secondary">
-                                                {employee.departmentName}
-                                            </p>
+                                        <TableCell>
+                                                {employee.departmentName}                                         
                                         </TableCell>
 
                                         {/* Contact */}
-                                        <TableCell className="hidden lg:table-cell">
+                                        <TableCell>
                                             {employee.phone ? (
                                                 <div className="flex items-center gap-1.5
-                                                                text-sm text-text-secondary">
-                                                    <Phone size={12} className="text-text-muted" />
+                                                                text-sm text-text-primary">
+                                                    <Phone size={12} className="text-text-primary" />
                                                     {employee.phone}
                                                 </div>
                                             ) : (
@@ -296,8 +294,8 @@ export default function EmployeesTable({
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
 
             {/* Edit Dialog */}
             <EditEmployeeDialog

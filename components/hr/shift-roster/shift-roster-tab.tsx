@@ -226,25 +226,24 @@ export default function ShiftRosterTab() {
             )}
 
             {/* Roster Table */}
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
-                <div className="overflow-x-auto">
+            <Card>
+                <CardContent>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     Employee
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden md:table-cell">
+                                <TableHead>
                                     Current Shift
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                   Assigned By
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Assign Shift
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium w-20">
+                                <TableHead>
                                     
                                 </TableHead>
                             </TableRow>
@@ -262,7 +261,7 @@ export default function ShiftRosterTab() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={4}
-                                        className="text-center py-12 text-text-muted">
+                                        className="text-center py-5">
                                         No employees found in this department
                                     </TableCell>
                                 </TableRow>
@@ -276,7 +275,7 @@ export default function ShiftRosterTab() {
                                     return (
                                         <TableRow
                                             key={employee.id}
-                                            className="hover:bg-cream-50 transition-colors">
+                                        >
 
                                             {/* Employee */}
                                             <TableCell>
@@ -289,7 +288,7 @@ export default function ShiftRosterTab() {
                                             </TableCell>
 
                                             {/* Current Shift */}
-                                            <TableCell className="hidden md:table-cell">
+                                            <TableCell>
                                                 {assignment ? (
                                                     <div className="flex items-center gap-2">
                                                         <Badge
@@ -379,8 +378,8 @@ export default function ShiftRosterTab() {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
         </div>
     );
 }

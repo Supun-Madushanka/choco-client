@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { MoreHorizontal, Pencil, Trash2, Clock } from "lucide-react";
 import EditShiftDialog from "./edit-shift-dialog";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ShiftsTableProps {
     shifts: ShiftResponse[];
@@ -105,29 +106,28 @@ export default function ShiftsTable({
 
     return (
         <>
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
-                <div className="overflow-x-auto">
+            <Card>
+                <CardContent>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     Name
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Time
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden md:table-cell">
+                                <TableHead>
                                     Type
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden lg:table-cell">
+                                <TableHead>
                                     Description
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Status
                                 </TableHead>
                                 {canManage && (
-                                    <TableHead className="text-text-secondary font-medium w-12">
+                                    <TableHead>
                                         Actions
                                     </TableHead>
                                 )}
@@ -138,7 +138,7 @@ export default function ShiftsTable({
                                 <TableRow>
                                     <TableCell
                                         colSpan={6}
-                                        className="text-center py-12 text-text-muted">
+                                        className="text-center py-5">
                                         No shifts found
                                     </TableCell>
                                 </TableRow>
@@ -146,23 +146,21 @@ export default function ShiftsTable({
                                 shifts.map((shift) => (
                                     <TableRow
                                         key={shift.id}
-                                        className="hover:bg-cream-50 transition-colors">
+                                    >
 
                                         <TableCell>
-                                            <p className="text-sm font-medium text-text-primary">
                                                 {shift.name}
-                                            </p>
                                         </TableCell>
 
                                         <TableCell>
                                             <div className="flex items-center gap-1.5
-                                                            text-sm text-text-secondary">
-                                                <Clock size={13} className="text-text-muted" />
+                                                            text-sm text-text-primary">
+                                                <Clock size={13} className="text-text-primary" />
                                                 {formatTime(shift.startTime)} - {formatTime(shift.endTime)}
                                             </div>
                                         </TableCell>
 
-                                        <TableCell className="hidden md:table-cell">
+                                        <TableCell>
                                             <Badge
                                                 variant="outline"
                                                 className={`text-xs ${getTypeBadgeClass(shift.type)}`}>
@@ -170,10 +168,8 @@ export default function ShiftsTable({
                                             </Badge>
                                         </TableCell>
 
-                                        <TableCell className="hidden lg:table-cell">
-                                            <p className="text-sm text-text-muted truncate max-w-xs">
+                                        <TableCell>
                                                 {shift.description || "—"}
-                                            </p>
                                         </TableCell>
 
                                         <TableCell>
@@ -222,8 +218,8 @@ export default function ShiftsTable({
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
 
             {/* Edit Dialog */}
             <EditShiftDialog

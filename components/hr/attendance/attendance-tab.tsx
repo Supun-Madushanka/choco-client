@@ -165,25 +165,24 @@ export default function AttendanceManagementTab() {
             </Card>
 
             {/* Table */}
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
-                <div className="overflow-x-auto">
+                <Card>     
+                    <CardContent>              
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     Employee
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Check In
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Check Out
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Status
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium w-12">
+                                <TableHead>
                                     
                                 </TableHead>
                             </TableRow>
@@ -192,7 +191,8 @@ export default function AttendanceManagementTab() {
                             {loading ? (
                                 [1, 2, 3, 4].map((i) => (
                                     <TableRow key={i}>
-                                        <TableCell colSpan={5}>
+                                        <TableCell colSpan={5}
+                                        >
                                             <Skeleton className="h-10 w-full" />
                                         </TableCell>
                                     </TableRow>
@@ -201,7 +201,7 @@ export default function AttendanceManagementTab() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={5}
-                                        className="text-center py-12 text-text-muted">
+                                        className="text-center py-5">
                                         No employees found in this department
                                     </TableCell>
                                 </TableRow>
@@ -212,7 +212,7 @@ export default function AttendanceManagementTab() {
                                     return (
                                         <TableRow
                                             key={employee.id}
-                                            className="hover:bg-cream-50 transition-colors">
+                                        >
 
                                             <TableCell>
                                                 <p className="text-sm font-medium text-text-primary">
@@ -223,13 +223,13 @@ export default function AttendanceManagementTab() {
                                                 </p>
                                             </TableCell>
 
-                                            <TableCell className="text-sm text-text-secondary">
+                                            <TableCell>
                                                 {record?.checkIn
                                                     ? format(new Date(record.checkIn), "hh:mm a")
                                                     : "—"}
                                             </TableCell>
 
-                                            <TableCell className="text-sm text-text-secondary">
+                                            <TableCell>
                                                 {record?.checkOut
                                                     ? format(new Date(record.checkOut), "hh:mm a")
                                                     : "—"}
@@ -274,8 +274,8 @@ export default function AttendanceManagementTab() {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card> 
 
             {/* Edit/Create Dialog */}
             <AttendanceEditDialog

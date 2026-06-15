@@ -35,6 +35,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface DepartmentsTableProps {
     departments: DepartmentResponse[];
@@ -106,13 +107,8 @@ export default function DepartmentsTable({
 
     return (
 
-        <div
-            className="
-                rounded-lg
-                border
-                overflow-hidden
-            "
-        >
+        <Card>
+            <CardContent>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -253,6 +249,7 @@ export default function DepartmentsTable({
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+            </CardContent>
+        </Card>
     );
 }
