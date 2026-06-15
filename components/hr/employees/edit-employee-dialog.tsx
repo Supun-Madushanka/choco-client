@@ -58,6 +58,7 @@ export default function EditEmployeeDialog({
     const [loading, setLoading] = useState(false);
     const [optionsLoading, setOptionsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [numberLoading, setNumberLoading] = useState(false);
 
     useEffect(() => {
         if (employee) {
@@ -132,6 +133,27 @@ export default function EditEmployeeDialog({
         }
     };
 
+    const handleDepartmentChange = async (departmentId: number) => {
+        setFormData((prev) => ({
+            ...prev,
+            departmentId,
+            employeeNo: "",
+        }));
+        setNumberLoading(true);
+        try {
+            const response = await employeeService.getNextEmployeeNumber(departmentId);
+            setFormData((prev) => ({
+                ...prev,
+                departmentId,
+                employeeNo: response.data,
+            }));
+        } catch {
+            setError("Failed to generate employee number");
+        } finally {
+            setNumberLoading(false);
+        }
+    };
+
     return (
         <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
             <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
@@ -172,10 +194,7 @@ export default function EditEmployeeDialog({
                         <Select
                             disabled={optionsLoading}
                             value={String(formData.departmentId)}
-                            onValueChange={(value) => setFormData({
-                                ...formData,
-                                departmentId: parseInt(value),
-                            })}>
+                            onValueChange={(value) => handleDepartmentChange(parseInt(value))}>
                             <SelectTrigger className="border-cream-200 focus:ring-gold-500">
                                 <SelectValue placeholder="Select department" />
                             </SelectTrigger>
