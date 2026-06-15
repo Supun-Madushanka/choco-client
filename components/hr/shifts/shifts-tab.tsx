@@ -5,11 +5,13 @@ import { shiftService } from "@/services/shift-service";
 import { ShiftResponse } from "@/types/shift";
 import ShiftsTable from "./shifts-table";
 import CreateShiftDialog from "./create-shift-dialog";
+import { useAuthStore } from "@/store/auth-store";
 
 export default function ShiftsTab() {
 
     const [shifts, setShifts] = useState<ShiftResponse[]>([]);
     const [loading, setLoading] = useState(true);
+    const { user } = useAuthStore();
 
     const fetchShifts = async () => {
         setLoading(true);
@@ -27,6 +29,9 @@ export default function ShiftsTab() {
         fetchShifts();
     }, []);
 
+    const canManage =
+        user?.role === "SUPER_ADMIN";
+
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
@@ -38,13 +43,18 @@ export default function ShiftsTab() {
                         Manage work shifts for employees
                     </p>
                 </div>
-                <CreateShiftDialog onSuccess={fetchShifts} />
+                
+                {canManage && (
+                    <CreateShiftDialog onSuccess={fetchShifts} />
+                )}
+
             </div>
 
             <ShiftsTable
                 shifts={shifts}
                 loading={loading}
                 onRefresh={fetchShifts}
+                canManage={canManage}
             />
         </div>
     );

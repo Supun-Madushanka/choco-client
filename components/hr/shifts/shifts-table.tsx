@@ -37,12 +37,14 @@ interface ShiftsTableProps {
     shifts: ShiftResponse[];
     loading: boolean;
     onRefresh: () => void;
+    canManage: boolean;
 }
 
 export default function ShiftsTable({
     shifts,
     loading,
     onRefresh,
+    canManage,
 }: ShiftsTableProps) {
 
     const [editShift, setEditShift] = useState<ShiftResponse | null>(null);
@@ -124,9 +126,11 @@ export default function ShiftsTable({
                                 <TableHead className="text-text-secondary font-medium">
                                     Status
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium w-12">
-                                    Actions
-                                </TableHead>
+                                {canManage && (
+                                    <TableHead className="text-text-secondary font-medium w-12">
+                                        Actions
+                                    </TableHead>
+                                )}
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -184,12 +188,13 @@ export default function ShiftsTable({
                                             </Badge>
                                         </TableCell>
 
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
+                                        {canManage && (
+                                            <TableCell>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
                                                         className="h-8 w-8 text-text-muted">
                                                         <MoreHorizontal size={16} />
                                                     </Button>
@@ -211,7 +216,7 @@ export default function ShiftsTable({
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </TableCell>
-
+                                        )}
                                     </TableRow>
                                 ))
                             )}
