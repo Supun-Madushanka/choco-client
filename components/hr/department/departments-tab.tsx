@@ -56,10 +56,13 @@ export default function DepartmentsTab() {
             {/* Header */}
             <div className="flex justify-between items-center">
                 <div>
-                    <h3 className="text-lg font-semibold text-text-primary">
+                    <h3 className="text-base font-semibold text-text-primary">
                         Departments
+                        <span className="ml-2 text-text-muted font-normal text-sm">
+                            ({departments.length})
+                        </span>
                     </h3>
-                    <p className="text-sm text-text-muted">
+                    <p className="text-sm text-text-muted mt-0.5">
                         Manage organization departments
                     </p>
                 </div>
