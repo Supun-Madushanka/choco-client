@@ -12,6 +12,7 @@ import {
     Settings,
     LucideIcon,
     ClipboardCheck,
+    Banknote
 } from "lucide-react";
 
 export interface NavItem {
@@ -44,6 +45,11 @@ export const allNavItems: NavGroup[] = [
                 href: "/dashboard/attendance",
                 icon: ClipboardCheck,
             },
+            {
+                label: "My Payslip",
+                href: "/dashboard/my-payslip",
+                icon: Banknote,
+            }
         ],
     },
     {
@@ -142,12 +148,14 @@ export const roleNavItems: Record<string, string[]> = {
         "/dashboard/reports",
         "/dashboard/settings",
         "/dashboard/attendance",
+        "/dashboard/my-payslip",
     ],
     HR_MANAGER: [
         "/dashboard/hr",
         "/dashboard/reports",
         "/dashboard/users",
         "/dashboard/attendance",
+        "/dashboard/my-payslip",
     ],
     // HR_OFFICER: [
     //     "/dashboard/hr",
@@ -159,6 +167,7 @@ export const roleNavItems: Record<string, string[]> = {
         "/dashboard/raw-materials",
         "/dashboard/reports",
         "/dashboard/attendance",
+        "/dashboard/my-payslip",
     ],
     // PRODUCTION_SUPERVISOR: [
     //     "/dashboard/production",
