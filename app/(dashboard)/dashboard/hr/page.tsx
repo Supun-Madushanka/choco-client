@@ -1,12 +1,15 @@
+import PageHeader from "@/components/common/page-header";
+import HrTabs from "@/components/hr/hr-tabs";
+
 export default function HrPage() {
     return (
         <div>
-            <h1 className="text-2xl font-bold text-text-primary mb-2">
-                Human Resources
-            </h1>
-            <p className="text-text-muted">
-                Welcome to Ceylon Chocolate Factory Management System.
-            </p>
+            <PageHeader
+                title="Human Resources"
+                description="Manage employee information and HR-related tasks."
+            />
+
+            <HrTabs/>
         </div>
     );
 }
