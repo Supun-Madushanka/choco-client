@@ -8,7 +8,7 @@ import DepartmentsTab from "./department/departments-tab";
 import ShiftsTab from "./shifts/shifts-tab";
 import ShiftRosterTab from "./shift-roster/shift-roster-tab";
 import AttendanceManagementTab from "./attendance/attendance-tab";
-// import PayrollTab from "./payroll-tab";
+import PayrollTab from "./payroll/payroll-tab";
 
 export default function HrTabs() {
     return (
@@ -42,10 +42,10 @@ export default function HrTabs() {
                     Attendance
                 </TabsTrigger>
 
-                {/*<TabsTrigger value="payroll" className="gap-2">
+                <TabsTrigger value="payroll" className="gap-2">
                     <DollarSign size={16} />
                     Payroll
-                </TabsTrigger> */}
+                </TabsTrigger>
 
             </TabsList>
 
@@ -70,9 +70,9 @@ export default function HrTabs() {
                 <AttendanceManagementTab />
             </TabsContent>
 
-            {/*<TabsContent value="payroll">
+            <TabsContent value="payroll">
                 <PayrollTab />
-            </TabsContent> */}
+            </TabsContent>
 
         </Tabs>
     );
