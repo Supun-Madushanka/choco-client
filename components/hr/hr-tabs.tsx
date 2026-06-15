@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Building2, Clock, CalendarDays, ClipboardList, DollarSign } from "lucide-react";
 
-// import EmployeesTab from "./employees-tab";
+import EmployeesTab from "./employees/employees-tab";
 import DepartmentsTab from "./department/departments-tab";
 import ShiftsTab from "./shifts/shifts-tab";
 // import RosterTab from "./roster-tab";
@@ -17,10 +17,10 @@ export default function HrTabs() {
             {/* Tabs Header */}
             <TabsList className="grid grid-cols-6 w-full">
                 
-                {/* <TabsTrigger value="employees" className="gap-2">
+                <TabsTrigger value="employees" className="gap-2">
                     <Users size={16} />
                     Employees
-                </TabsTrigger> */}
+                </TabsTrigger>
 
                 <TabsTrigger value="departments" className="gap-2">
                     <Building2 size={16} />
@@ -50,9 +50,9 @@ export default function HrTabs() {
             </TabsList>
 
             {/* Tab Content */}
-            {/* <TabsContent value="employees">
+            <TabsContent value="employees">
                 <EmployeesTab />
-            </TabsContent> */}
+            </TabsContent>
 
             <TabsContent value="departments">
                 <DepartmentsTab />

@@ -89,4 +89,11 @@ export const userService = {
         );
         return response.data;
     },
+
+    getUsersWithoutEmployeeProfile: async (): Promise<ApiResponse<UserResponse[]>> => {
+        const response = await axiosInstance.get<ApiResponse<UserResponse[]>>(
+            "users/unlinked"
+        );
+        return response.data;
+    }
 };
