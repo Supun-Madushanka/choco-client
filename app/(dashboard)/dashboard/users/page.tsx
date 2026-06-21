@@ -58,6 +58,20 @@ export default function UsersPage() {
             {/* Stats */}
             <UserStatsCards users={users} loading={loading} />
 
+            <div className="flex items-center justify-between mb-4">
+                <div>
+                    <h3 className="text-base font-semibold text-text-primary">
+                        All Users
+                        <span className="ml-2 text-text-muted font-normal text-sm">
+                            ({users.length})
+                        </span>
+                    </h3>
+                    <p className="text-sm text-text-muted mt-0.5">
+                        View and manage all user accounts
+                    </p>
+                </div>
+            </div>
+
             {/* Table */}
             <UsersTable
                 users={users}

@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth-store";
 import { format } from "date-fns";
+import { Card, CardContent } from "../ui/card";
 
 interface UsersTableProps {
     users: UserResponse[];
@@ -144,11 +145,11 @@ export default function UsersTable({
 
     return (
         <>
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
+            {/* <div className="bg-white rounded-card border border-cream-200
+                            shadow-card overflow-hidden"> */}
 
                 {/* Header */}
-                <div className="flex items-center justify-between
+                {/* <div className="flex items-center justify-between
                                 px-5 py-4 border-b border-cream-200">
                     <p className="text-sm font-semibold text-text-primary">
                         All Users
@@ -156,30 +157,31 @@ export default function UsersTable({
                             ({users.length})
                         </span>
                     </p>
-                </div>
+                </div> */}
 
                 {/* Table — scrollable on mobile */}
-                <div className="overflow-x-auto">
+                <Card>
+                    <CardContent>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     User
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden md:table-cell">
+                                <TableHead>
                                     Role
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Status
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Phone
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden lg:table-cell">
+                                <TableHead>
                                     Last Login
                                 </TableHead>
                                 {isSuperAdmin && (
-                                    <TableHead className="text-text-secondary font-medium w-12">
+                                    <TableHead>
                                         Actions
                                     </TableHead>
                                 )}
@@ -198,7 +200,7 @@ export default function UsersTable({
                                 users.map((user) => (
                                     <TableRow
                                         key={user.userId}
-                                        className="hover:bg-cream-50 transition-colors">
+                                    >
 
                                         {/* User */}
                                         <TableCell>
@@ -249,12 +251,12 @@ export default function UsersTable({
                                         </TableCell>
 
                                         {/* Phone */}
-                                        <TableCell className="text-text-primary">
+                                        <TableCell>
                                             {user.phone || "Not provided"}
                                         </TableCell>
 
                                         {/* Last Login */}
-                                        <TableCell className="hidden lg:table-cell text-sm text-text-primary">
+                                        <TableCell>
                                             {user.lastLoginAt
                                                 ? format(
                                                     new Date(user.lastLoginAt),
@@ -314,8 +316,9 @@ export default function UsersTable({
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
+            {/* </div> */}
 
             {/* Confirm Dialog */}
             <AlertDialog
