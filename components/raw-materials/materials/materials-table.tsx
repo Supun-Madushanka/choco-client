@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { MoreHorizontal, Pencil, Trash2, AlertTriangle } from "lucide-react";
 import EditMaterialDialog from "./edit-material-dialog";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface MaterialsTableProps {
     materials: RawMaterialResponse[];
@@ -82,28 +83,27 @@ export default function MaterialsTable({
 
     return (
         <>
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card overflow-hidden">
-                <div className="overflow-x-auto">
+            <Card>
+                <CardContent>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-cream-50 hover:bg-cream-50">
-                                <TableHead className="text-text-secondary font-medium">
+                            <TableRow>
+                                <TableHead>
                                     Name
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden md:table-cell">
+                                <TableHead>
                                     Category
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Total Stock
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium hidden lg:table-cell">
+                                <TableHead>
                                     Min Level
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium">
+                                <TableHead>
                                     Status
                                 </TableHead>
-                                <TableHead className="text-text-secondary font-medium w-12">
+                                <TableHead>
                                     
                                 </TableHead>
                             </TableRow>
@@ -113,7 +113,7 @@ export default function MaterialsTable({
                                 <TableRow>
                                     <TableCell
                                         colSpan={6}
-                                        className="text-center py-12 text-text-muted">
+                                        className="text-center py-6 text-text-muted">
                                         No raw materials found
                                     </TableCell>
                                 </TableRow>
@@ -127,7 +127,7 @@ export default function MaterialsTable({
                                     return (
                                         <TableRow
                                             key={material.id}
-                                            className="hover:bg-cream-50 transition-colors">
+                                        >
 
                                             <TableCell>
                                                 <p className="text-sm font-medium text-text-primary">
@@ -140,10 +140,8 @@ export default function MaterialsTable({
                                                 )}
                                             </TableCell>
 
-                                            <TableCell className="hidden md:table-cell">
-                                                <p className="text-sm text-text-secondary">
+                                            <TableCell>
                                                     {material.categoryName}
-                                                </p>
                                             </TableCell>
 
                                             <TableCell>
@@ -152,7 +150,7 @@ export default function MaterialsTable({
                                                 </p>
                                             </TableCell>
 
-                                            <TableCell className="hidden lg:table-cell">
+                                            <TableCell>
                                                 <p className="text-sm text-text-muted">
                                                     {material.minStockLevel.toLocaleString()} {material.unit}
                                                 </p>
@@ -211,8 +209,8 @@ export default function MaterialsTable({
                             )}
                         </TableBody>
                     </Table>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
 
             <EditMaterialDialog
                 material={editMaterial}
