@@ -1,9 +1,10 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Warehouse, Leaf } from "lucide-react";
+import { Warehouse, Leaf, SlidersHorizontal } from "lucide-react";
 import WarehousesTab from "./warehouses/warehouse-tab";
 import MaterialsTab from "./materials/materials-tab";
+import StockMovementsTab from "./stock-movements/stock-movements-tab";
 
 export default function RawMaterialsTab() {
   return (
@@ -21,6 +22,11 @@ export default function RawMaterialsTab() {
                 Raw Materials
             </TabsTrigger>
 
+            <TabsTrigger value="stock-movements" className="gap-2">
+                <SlidersHorizontal size={16} />
+                Stock Movements
+            </TabsTrigger>
+
         </TabsList>
 
         <TabsContent value="warehouses">
@@ -29,6 +35,10 @@ export default function RawMaterialsTab() {
 
         <TabsContent value="raw-materials">
             <MaterialsTab />
+        </TabsContent>
+
+        <TabsContent value="stock-movements">
+            <StockMovementsTab />
         </TabsContent>
 
     </Tabs>

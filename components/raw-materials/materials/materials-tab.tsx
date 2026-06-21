@@ -79,7 +79,7 @@ export default function MaterialsTab() {
                         value={selectedCategory}
                         onValueChange={setSelectedCategory}>
                         <SelectTrigger className="border-cream-200
-                                                   focus:ring-gold-500 w-44">
+                                                   focus:ring-gold-500 w-full lg:w-44">
                             <SelectValue placeholder="All Categories" />
                         </SelectTrigger>
                         <SelectContent>
@@ -92,10 +92,10 @@ export default function MaterialsTab() {
                         </SelectContent>
                     </Select>
 
-                <div className="flex gap-2">
+                
                     <ManageCategoriesDialog onChange={fetchAll} />
                     <CreateMaterialDialog onSuccess={fetchAll} />
-                    </div>
+                    
                 </div>
             </div>
 
