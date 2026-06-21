@@ -1,8 +1,9 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Warehouse } from "lucide-react";
+import { Warehouse, Leaf } from "lucide-react";
 import WarehousesTab from "./warehouses/warehouse-tab";
+import MaterialsTab from "./materials/materials-tab";
 
 export default function RawMaterialsTab() {
   return (
@@ -15,10 +16,19 @@ export default function RawMaterialsTab() {
                 Warehouses
             </TabsTrigger>
 
+            <TabsTrigger value="raw-materials" className="gap-2">
+                <Leaf size={16} />
+                Raw Materials
+            </TabsTrigger>
+
         </TabsList>
 
         <TabsContent value="warehouses">
             <WarehousesTab />
+        </TabsContent>
+
+        <TabsContent value="raw-materials">
+            <MaterialsTab />
         </TabsContent>
 
     </Tabs>
