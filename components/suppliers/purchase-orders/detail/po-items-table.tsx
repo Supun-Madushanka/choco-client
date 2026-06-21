@@ -10,6 +10,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface PoItemsTableProps {
     items: PurchaseOrderItemResponse[];
@@ -19,12 +20,11 @@ interface PoItemsTableProps {
 export default function PoItemsTable({ items, currency }: PoItemsTableProps) {
 
     return (
-        <div className="bg-white rounded-card border border-cream-200
-                        shadow-card overflow-hidden">
-            <div className="overflow-x-auto">
+        <Card>
+            <CardContent>
                 <Table>
                     <TableHeader>
-                        <TableRow className="bg-cream-50 hover:bg-cream-50">
+                        <TableRow>
                             <TableHead className="text-text-secondary font-medium">
                                 Material
                             </TableHead>
@@ -93,7 +93,7 @@ export default function PoItemsTable({ items, currency }: PoItemsTableProps) {
                         })}
                     </TableBody>
                 </Table>
-            </div>
-        </div>
+                </CardContent>
+            </Card>
     );
 }

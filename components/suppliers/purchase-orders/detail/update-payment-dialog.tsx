@@ -98,7 +98,7 @@ export default function UpdatePaymentDialog({
                         Update Payment
                     </DialogTitle>
                     <DialogDescription className="text-text-muted">
-                        {order.poNumber} — Total: {order.currency} {order.totalAmount.toLocaleString()}
+                        {order.poNumber} - Total: {order.currency} {order.totalAmount.toLocaleString()}
                     </DialogDescription>
                 </DialogHeader>
 

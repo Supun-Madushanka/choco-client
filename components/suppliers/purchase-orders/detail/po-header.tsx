@@ -6,6 +6,7 @@ import { purchaseOrderService } from "@/services/purchase-order-service";
 import { PurchaseOrderResponse } from "@/types/purchase-order";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -133,97 +134,110 @@ export default function PoHeader({ order, onRefresh }: PoHeaderProps) {
 
     return (
         <>
-            <div className="bg-white rounded-card border border-cream-200
-                            shadow-card p-5 mb-4">
+            <Card className="border-cream-200 shadow-card mb-4">
+                <CardContent className="p-5">
 
-                <div className="flex flex-col sm:flex-row sm:items-start
-                                sm:justify-between gap-4">
-                    <div>
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <h2 className="text-lg font-bold text-text-primary">
-                                {order.poNumber}
-                            </h2>
-                            <Badge
-                                variant="outline"
-                                className={`text-xs ${getStatusBadgeClass(order.status)}`}>
-                                {order.status.replace("_", " ")}
-                            </Badge>
+                    <div className="flex flex-col sm:flex-row sm:items-start
+                                    sm:justify-between gap-4">
+                        <div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <h2 className="text-lg font-bold text-text-primary">
+                                    {order.poNumber}
+                                </h2>
+                                <Badge
+                                    variant="outline"
+                                    className={`text-xs ${getStatusBadgeClass(order.status)}`}>
+                                    {order.status.replace("_", " ")}
+                                </Badge>
+                            </div>
+                            <p className="text-sm text-text-secondary mt-1">
+                                {order.supplierName} ({order.supplierCode})
+                            </p>
+                            <p className="text-xs text-text-muted mt-0.5">
+                                Created by {order.createdByName}
+                                {order.approvedByName && ` · Approved by ${order.approvedByName}`}
+                            </p>
                         </div>
-                        <p className="text-sm text-text-secondary mt-1">
-                            {order.supplierName} ({order.supplierCode})
-                        </p>
-                        <p className="text-xs text-text-muted mt-0.5">
-                            Created by {order.createdByName}
-                            {order.approvedByName && ` · Approved by ${order.approvedByName}`}
+
+                        <p className="text-xl font-bold text-text-primary">
+                            {order.currency} {order.totalAmount.toLocaleString()}
                         </p>
                     </div>
 
-                    <p className="text-xl font-bold text-text-primary">
-                        {order.currency} {order.totalAmount.toLocaleString()}
-                    </p>
-                </div>
-
-                {error && (
-                    <div className="bg-error-light border border-error/20
-                                    text-error rounded-lg px-4 py-3 text-sm mt-4">
-                        {error}
-                    </div>
-                )}
-
-                <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-cream-200">
-
-                    {order.status === "DRAFT" && (
-                        <>
-                            <EditPurchaseOrderDialog order={order} onSuccess={onRefresh} />
-                            <Button
-                                size="sm"
-                                onClick={() => setConfirmAction("submit")}
-                                className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
-                                <Send size={14} />
-                                Submit for Approval
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => setConfirmAction("delete")}
-                                className="border-cream-200 text-error gap-2
-                                           hover:bg-error-light hover:text-error">
-                                <Trash2 size={14} />
-                                Delete
-                            </Button>
-                        </>
+                    {error && (
+                        <div className="bg-error-light border border-error/20
+                                        text-error rounded-lg px-4 py-3 text-sm mt-4">
+                            {error}
+                        </div>
                     )}
 
-                    {order.status === "PENDING_APPROVAL" && (
-                        <>
-                            <Button
-                                size="sm"
-                                onClick={() => setConfirmAction("approve")}
-                                className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
-                                <CheckCircle2 size={14} />
-                                Approve
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => setConfirmAction("reject")}
-                                className="border-cream-200 text-error gap-2
-                                           hover:bg-error-light hover:text-error">
-                                <XCircle size={14} />
-                                Reject
-                            </Button>
-                        </>
-                    )}
+                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-cream-200">
 
-                    {order.status === "APPROVED" && (
-                        <>
-                            <Button
-                                size="sm"
-                                onClick={() => setConfirmAction("order")}
-                                className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
-                                <PackageCheck size={14} />
-                                Mark as Ordered
-                            </Button>
+                        {order.status === "DRAFT" && (
+                            <>
+                                <EditPurchaseOrderDialog order={order} onSuccess={onRefresh} />
+                                <Button
+                                    size="sm"
+                                    onClick={() => setConfirmAction("submit")}
+                                    className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
+                                    <Send size={14} />
+                                    Submit for Approval
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => setConfirmAction("delete")}
+                                    className="border-cream-200 text-error gap-2
+                                               hover:bg-error-light hover:text-error">
+                                    <Trash2 size={14} />
+                                    Delete
+                                </Button>
+                            </>
+                        )}
+
+                        {order.status === "PENDING_APPROVAL" && (
+                            <>
+                                <Button
+                                    size="sm"
+                                    onClick={() => setConfirmAction("approve")}
+                                    className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
+                                    <CheckCircle2 size={14} />
+                                    Approve
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => setConfirmAction("reject")}
+                                    className="border-cream-200 text-error gap-2
+                                               hover:bg-error-light hover:text-error">
+                                    <XCircle size={14} />
+                                    Reject
+                                </Button>
+                            </>
+                        )}
+
+                        {order.status === "APPROVED" && (
+                            <>
+                                <Button
+                                    size="sm"
+                                    onClick={() => setConfirmAction("order")}
+                                    className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
+                                    <PackageCheck size={14} />
+                                    Mark as Ordered
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => setConfirmAction("cancel")}
+                                    className="border-cream-200 text-error gap-2
+                                               hover:bg-error-light hover:text-error">
+                                    <Ban size={14} />
+                                    Cancel
+                                </Button>
+                            </>
+                        )}
+
+                        {order.status === "ORDERED" && (
                             <Button
                                 size="sm"
                                 variant="outline"
@@ -233,23 +247,11 @@ export default function PoHeader({ order, onRefresh }: PoHeaderProps) {
                                 <Ban size={14} />
                                 Cancel
                             </Button>
-                        </>
-                    )}
+                        )}
 
-                    {order.status === "ORDERED" && (
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setConfirmAction("cancel")}
-                            className="border-cream-200 text-error gap-2
-                                       hover:bg-error-light hover:text-error">
-                            <Ban size={14} />
-                            Cancel
-                        </Button>
-                    )}
-
-                </div>
-            </div>
+                    </div>
+                </CardContent>
+            </Card>
 
             <AlertDialog
                 open={!!confirmAction}
