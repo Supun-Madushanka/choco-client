@@ -199,7 +199,7 @@ export default function PoHeader({ order, onRefresh }: PoHeaderProps) {
                             <Button
                                 size="sm"
                                 onClick={() => setConfirmAction("approve")}
-                                className="bg-success hover:bg-success/90 text-white gap-2">
+                                className="bg-gold-500 hover:bg-gold-400 text-white gap-2">
                                 <CheckCircle2 size={14} />
                                 Approve
                             </Button>
