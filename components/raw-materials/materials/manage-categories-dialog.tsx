@@ -237,8 +237,7 @@ export default function ManageCategoriesDialog({
                                                 size="sm"
                                                 disabled={saving}
                                                 onClick={() => handleSaveEdit(category.id)}
-                                                className="flex-1 h-8 bg-success
-                                                           hover:bg-success/90 text-white gap-1">
+                                                className="flex-1 h-8 bg-gold-500 hover:bg-gold-400 text-white gap-1">
                                                 <Check size={13} />
                                                 {saving ? "Saving..." : "Save"}
                                             </Button>
