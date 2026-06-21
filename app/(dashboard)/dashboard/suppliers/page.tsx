@@ -1,9 +1,15 @@
-import React from 'react'
+import PageHeader from "@/components/common/page-header";
+import SuppliersMainTab from "@/components/suppliers/suplier-main-tab";
 
-export default function page() {
+export default function SuppliersPage() {
   return (
     <div>
-      Suppliers
+      <PageHeader
+        title="Suppliers"
+        description="Manage suppliers and their materials." 
+      />
+
+      <SuppliersMainTab />
     </div>
   )
 }
