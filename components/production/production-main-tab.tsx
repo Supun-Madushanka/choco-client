@@ -1,9 +1,10 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tags, Cog } from "lucide-react";
+import { Tags, Cog, Package } from "lucide-react";
 import CategoriesTab from "./categories/categories-tab";
 import MachinesTab from "./machines/machines-tab";
+import ProductsTab from "./products/products-tab";
 
 export default function ProductionMainTab() {
   return (
@@ -21,6 +22,11 @@ export default function ProductionMainTab() {
           Machines
         </TabsTrigger>
 
+        <TabsTrigger value="products" className="gap-2">
+            <Package size={16} />
+          Products
+        </TabsTrigger>
+
       </TabsList>
 
       <TabsContent value="categories">
@@ -29,6 +35,10 @@ export default function ProductionMainTab() {
 
       <TabsContent value="machines">
         <MachinesTab />
+      </TabsContent>
+
+      <TabsContent value="products">
+        <ProductsTab />
       </TabsContent>
       
     </Tabs>
