@@ -1,9 +1,10 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Handshake, ShoppingCart } from "lucide-react";
+import { Handshake, ShoppingCart, Package, ClipboardCheck } from "lucide-react";
 import SuppliersTab from "./supplier/suppliers-tab";  
-import PurchaseOrdersTab from "./purchase-orders/purchase-orders-tab";  
+import PurchaseOrdersTab from "./purchase-orders/purchase-orders-tab";
+import GRNTab from "./grn/grn-tab";  
 
 export default function SuppliersMainTab() {
   return (
@@ -21,6 +22,11 @@ export default function SuppliersMainTab() {
                 Purchase Orders
             </TabsTrigger>
 
+            <TabsTrigger value="grn" className="gap-2">
+                <ClipboardCheck size={16} />
+                GRN
+            </TabsTrigger>
+
         </TabsList>
 
         <TabsContent value="suppliers">
@@ -29,6 +35,10 @@ export default function SuppliersMainTab() {
 
         <TabsContent value="purchase-orders">
             <PurchaseOrdersTab />
+        </TabsContent>
+
+        <TabsContent value="grn">
+            <GRNTab />
         </TabsContent>
 
     </Tabs>
