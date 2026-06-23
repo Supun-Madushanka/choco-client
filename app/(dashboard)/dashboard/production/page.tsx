@@ -1,9 +1,15 @@
-import React from 'react'
+import PageHeader from "@/components/common/page-header";
+import ProductionMainTab from "@/components/production/production-main-tab";
 
-export default function page() {
+export default function ProductionPage() {
   return (
     <div>
-      Production Dashboard
+      <PageHeader 
+        title="Production" 
+        description="Monitor and manage production processes."
+      />
+
+      <ProductionMainTab/>
     </div>
   )
 }
