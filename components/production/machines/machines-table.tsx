@@ -24,6 +24,7 @@ import {
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import EditMachineDialog from "./edit-machine-dialog";
+import { useRouter } from "next/navigation";
 
 interface MachinesTableProps {
     machines: MachineResponse[];
@@ -40,6 +41,7 @@ export default function MachinesTable({
     const [editMachine, setEditMachine] = useState<MachineResponse | null>(null);
     const [deleteMachine, setDeleteMachine] = useState<MachineResponse | null>(null);
     const [deleting, setDeleting] = useState(false);
+    const router = useRouter();
 
     const handleDelete = async () => {
         if (!deleteMachine) return;
@@ -114,7 +116,8 @@ export default function MachinesTable({
                                 machines.map((machine) => (
                                     <TableRow
                                         key={machine.id}
-                                        className="hover:bg-cream-50 transition-colors">
+                                        onClick={() => router.push(`/dashboard/production/machines/${machine.id}`)}
+                                        className="hover:bg-cream-50 transition-colors cursor-pointer">
 
                                         <TableCell>
                                             <Badge
@@ -173,7 +176,7 @@ export default function MachinesTable({
                                             </Badge>
                                         </TableCell>
 
-                                        <TableCell>
+                                        <TableCell onClick={(e) => e.stopPropagation()}>
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button
