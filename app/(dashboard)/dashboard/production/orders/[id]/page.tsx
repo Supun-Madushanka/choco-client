@@ -6,6 +6,7 @@ import { productionOrderService } from "@/services/production-order-service";
 import { ProductionOrderResponse } from "@/types/production-order";
 import PageHeader from "@/components/common/page-header";
 import ProductionOrderHeader from "@/components/production/production-orders/detail/production-order-header";
+import BatchesSection from "@/components/production/production-orders/detail/batches-section";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductionOrderDetailPage() {
@@ -51,6 +52,10 @@ export default function ProductionOrderDetailPage() {
                 description="Production order details and status"
             />
             <ProductionOrderHeader order={order} onRefresh={fetchOrder} />
+            <BatchesSection
+                productionOrderId={order.id}
+                orderStatus={order.status}
+            />
         </div>
     );
 }

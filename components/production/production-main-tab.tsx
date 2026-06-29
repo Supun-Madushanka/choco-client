@@ -1,11 +1,12 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tags, Cog, Package, ClipboardList } from "lucide-react";
+import { Tags, Cog, Package, ClipboardList, Layers } from "lucide-react";
 import CategoriesTab from "./categories/categories-tab";
 import MachinesTab from "./machines/machines-tab";
 import ProductsTab from "./products/products-tab";
 import ProductionOrdersTab from "./production-orders/production-orders-tab";
+import BatchesTab from "./batches/batches-tab";
 
 export default function ProductionMainTab() {
   return (
@@ -33,6 +34,11 @@ export default function ProductionMainTab() {
           Production Orders
         </TabsTrigger>
 
+        <TabsTrigger value="batches" className="gap-2">
+            <Layers size={16} />
+          Batches
+        </TabsTrigger>
+
       </TabsList>
 
       <TabsContent value="categories">
@@ -49,6 +55,10 @@ export default function ProductionMainTab() {
 
       <TabsContent value="production-orders">
         <ProductionOrdersTab />
+      </TabsContent>
+
+      <TabsContent value="batches">
+        <BatchesTab />
       </TabsContent>
       
     </Tabs>
